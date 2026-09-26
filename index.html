@@ -26,7 +26,6 @@
   --text: #111827; --text-soft: #374151;
   --muted: #6B7280; --border: #E5E7EB;
   --shadow: 0 1px 3px rgba(0,0,0,0.08);
-  --shadow-lg: 0 10px 25px rgba(0,0,0,0.08);
   --shadow-hover: 0 8px 24px rgba(79,70,229,0.15);
   --gradient: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
   --gradient-soft: linear-gradient(135deg, rgba(79,70,229,0.08), rgba(124,58,237,0.08));
@@ -36,9 +35,6 @@ body.dark {
   --card: #1E293B; --card-hover: #334155;
   --text: #F1F5F9; --text-soft: #CBD5E1;
   --muted: #94A3B8; --border: #334155;
-  --shadow: 0 1px 3px rgba(0,0,0,0.3);
-  --shadow-lg: 0 10px 25px rgba(0,0,0,0.4);
-  --shadow-hover: 0 8px 24px rgba(79,70,229,0.3);
   --gradient-soft: linear-gradient(135deg, rgba(79,70,229,0.2), rgba(124,58,237,0.2));
 }
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -54,72 +50,60 @@ body.bn { font-family: 'Noto Sans Bengali','Inter',sans-serif; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes scaleIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
-@keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
 
-.fade-in { animation: fadeIn 0.4s ease; }
-
-.auth-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; background: var(--gradient); position: relative; overflow: hidden; }
-.auth-wrap::before { content: ''; position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); animation: spin 40s linear infinite; }
-.auth-card { background: var(--card); border-radius: 24px; padding: 36px 28px; width: 100%; max-width: 420px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1); position: relative; z-index: 1; }
+/* AUTH */
+.auth-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; background: var(--gradient); }
+.auth-card { background: var(--card); border-radius: 24px; padding: 36px 28px; width: 100%; max-width: 420px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: slideUp 0.6s; }
 .auth-logo { text-align: center; margin-bottom: 28px; }
 .auth-logo .icon { font-size: 52px; margin-bottom: 10px; display: block; }
 .auth-logo h1 { font-size: 26px; font-weight: 700; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .auth-logo p { font-size: 13px; color: var(--muted); margin-top: 6px; }
 .auth-card h2 { font-size: 20px; font-weight: 600; margin-bottom: 22px; text-align: center; color: var(--text); }
+
 .form-group { margin-bottom: 16px; }
 .form-group label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 8px; color: var(--text-soft); }
 .input-wrap { position: relative; }
-.input-wrap .input-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 16px; opacity: 0.6; pointer-events: none; transition: all 0.2s; }
+.input-wrap .input-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 16px; opacity: 0.6; pointer-events: none; }
 input, select, textarea {
   width: 100%; padding: 13px 16px 13px 44px;
   border: 1.5px solid var(--border); border-radius: 12px;
   font-size: 15px; font-family: inherit; background: var(--card);
   color: var(--text); outline: none;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.25s;
 }
 select { padding-left: 16px; cursor: pointer; }
-input::placeholder, textarea::placeholder { color: var(--muted); opacity: 0.7; }
-input:focus, select:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(79,70,229,0.12); }
+input:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(79,70,229,0.12); }
 
 .btn {
   width: 100%; padding: 14px;
   border: none; border-radius: 12px;
   font-size: 15px; font-weight: 600;
   font-family: inherit; cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.25s;
   display: flex; align-items: center; justify-content: center; gap: 8px;
-  position: relative; overflow: hidden;
-  letter-spacing: 0.2px;
 }
 .btn-primary { background: var(--gradient); color: white; box-shadow: 0 4px 14px rgba(79,70,229,0.35); }
 .btn-primary:hover { box-shadow: 0 6px 20px rgba(79,70,229,0.5); transform: translateY(-1px); }
-.btn-primary:active { transform: scale(0.98) translateY(0); }
+.btn-primary:active { transform: scale(0.98); }
 .btn-secondary { background: var(--bg-alt); color: var(--text); border: 1.5px solid var(--border); }
-.btn-secondary:hover { background: var(--card-hover); }
-.btn-danger { background: var(--danger); color: white; }
-.btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
+.btn:disabled { opacity: 0.6; cursor: not-allowed; }
 .btn-sm { padding: 8px 14px; font-size: 13px; width: auto; }
 
-.alert { padding: 12px 16px; border-radius: 12px; font-size: 14px; margin-bottom: 16px; display: none; font-weight: 500; }
-.alert.show { display: block; animation: slideDown 0.3s ease; }
-.alert.error { background: #FEE2E2; color: #991B1B; border-left: 4px solid #EF4444; }
-.alert.success { background: #D1FAE5; color: #065F46; border-left: 4px solid #10B981; }
-.alert.info { background: #DBEAFE; color: #1E40AF; border-left: 4px solid #3B82F6; }
-body.dark .alert.error { background: rgba(239,68,68,0.15); color: #FCA5A5; }
-body.dark .alert.success { background: rgba(16,185,129,0.15); color: #6EE7B7; }
-body.dark .alert.info { background: rgba(59,130,246,0.15); color: #93C5FD; }
-.auth-card.shake { animation: shake 0.4s ease; }
+.alert { padding: 12px 16px; border-radius: 12px; font-size: 14px; margin-bottom: 16px; display: none; }
+.alert.show { display: block; }
+.alert.error { background: #FEE2E2; color: #991B1B; }
+.alert.success { background: #D1FAE5; color: #065F46; }
+.auth-card.shake { animation: shake 0.4s; }
 
 .spinner { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; }
 .spinner-dark { width: 28px; height: 28px; border: 3px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 12px; }
 
 .auth-link { text-align: center; margin-top: 18px; font-size: 14px; color: var(--muted); }
-.auth-link a { color: var(--primary); font-weight: 600; cursor: pointer; text-decoration: none; transition: all 0.2s; }
-.auth-link a:hover { text-decoration: underline; }
+.auth-link a { color: var(--primary); font-weight: 600; cursor: pointer; text-decoration: none; }
 
+/* APP */
 .app-header {
   position: sticky; top: 0; z-index: 100;
   background: var(--gradient); color: white;
@@ -129,21 +113,19 @@ body.dark .alert.info { background: rgba(59,130,246,0.15); color: #93C5FD; }
 }
 .app-header .left { display: flex; align-items: center; gap: 12px; }
 .app-header .logo-icon { font-size: 26px; }
-.app-header .shop-info h1 { font-size: 16px; font-weight: 700; line-height: 1.2; }
+.app-header .shop-info h1 { font-size: 16px; font-weight: 700; }
 .app-header .shop-info p { font-size: 11px; opacity: 0.85; margin-top: 2px; }
 .icon-btn {
   width: 40px; height: 40px; border-radius: 50%;
   background: rgba(255,255,255,0.15); border: none; color: white;
   font-size: 17px; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  transition: all 0.2s;
 }
-.icon-btn:hover { background: rgba(255,255,255,0.28); }
 
 .container { max-width: 600px; margin: 0 auto; padding: 16px; }
 .page { display: none; }
-.page.active { display: block; animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
-.page-title { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: var(--text); letter-spacing: -0.3px; }
+.page.active { display: block; animation: fadeIn 0.35s; }
+.page-title { font-size: 22px; font-weight: 700; margin-bottom: 18px; }
 
 .card {
   background: var(--card);
@@ -151,15 +133,13 @@ body.dark .alert.info { background: rgba(59,130,246,0.15); color: #93C5FD; }
   padding: 18px;
   margin-bottom: 16px;
   box-shadow: var(--shadow);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s;
   border: 1px solid var(--border);
 }
-.card:hover { box-shadow: var(--shadow-hover); }
 .card-title {
   font-size: 15px; font-weight: 600;
   margin-bottom: 14px;
   display: flex; align-items: center; justify-content: space-between;
-  color: var(--text);
 }
 .card-title .title-text { display: flex; align-items: center; gap: 8px; }
 
@@ -169,20 +149,12 @@ body.dark .alert.info { background: rgba(59,130,246,0.15); color: #93C5FD; }
   border-radius: 16px;
   padding: 18px;
   box-shadow: var(--shadow);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative; overflow: hidden;
+  transition: all 0.3s;
   border: 1px solid var(--border);
 }
-.stat-card::before {
-  content: ''; position: absolute;
-  top: 0; left: 0; right: 0; height: 3px;
-  background: var(--gradient);
-  opacity: 0; transition: opacity 0.3s;
-}
 .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
-.stat-card:hover::before { opacity: 1; }
 .stat-card .label { font-size: 12px; color: var(--muted); margin-bottom: 8px; font-weight: 500; }
-.stat-card .value { font-size: 24px; font-weight: 700; line-height: 1.15; letter-spacing: -0.5px; }
+.stat-card .value { font-size: 24px; font-weight: 700; line-height: 1.15; }
 .stat-card.green .value { color: var(--secondary); }
 .stat-card.blue .value { color: var(--primary); }
 .stat-card.orange .value { color: var(--warning); }
@@ -196,12 +168,11 @@ body.dark .alert.info { background: rgba(59,130,246,0.15); color: #93C5FD; }
   border-radius: 14px;
   padding: 16px 14px;
   text-align: left; cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s;
   display: flex; align-items: center; gap: 12px;
   font-family: inherit; color: var(--text);
 }
-.qa-btn:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: var(--shadow-hover); background: var(--card-hover); }
-.qa-btn:active { transform: translateY(0) scale(0.98); }
+.qa-btn:hover { border-color: var(--primary); transform: translateY(-2px); background: var(--card-hover); }
 .qa-btn .qa-icon {
   font-size: 24px; width: 46px; height: 46px;
   background: var(--gradient-soft);
@@ -209,29 +180,28 @@ body.dark .alert.info { background: rgba(59,130,246,0.15); color: #93C5FD; }
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
 }
-.qa-btn .qa-text { font-size: 13px; font-weight: 600; color: var(--text); }
+.qa-btn .qa-text { font-size: 13px; font-weight: 600; }
 .qa-btn .qa-sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
 
 .list-item {
   display: flex; justify-content: space-between; align-items: center;
   padding: 14px; border-radius: 12px;
-  background: var(--bg-alt); margin-bottom: 8px;
+  background: var(--card); margin-bottom: 8px;
   transition: all 0.25s;
-  border: 1px solid transparent;
+  border: 1px solid var(--border);
 }
-.list-item:last-child { margin-bottom: 0; }
-.list-item:hover { background: var(--card-hover); border-color: var(--border); }
+.list-item:hover { background: var(--bg-alt); }
 .list-item .left-side { flex: 1; min-width: 0; }
-.list-item .item-title { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); }
+.list-item .item-title { font-size: 14px; font-weight: 600; color: var(--text); }
 .list-item .item-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
-.list-item .item-value { font-size: 16px; font-weight: 700; color: var(--secondary); margin-left: 10px; flex-shrink: 0; letter-spacing: -0.3px; }
+.list-item .item-value { font-size: 16px; font-weight: 700; color: var(--secondary); margin-left: 10px; }
 .list-item .item-value.red { color: var(--danger); }
 .list-item .item-value.warn { color: var(--warning); }
 .list-item.warn-item { background: #FEF3C7; border-color: #FCD34D; }
 .list-item.due-item { background: #FEE2E2; border-color: #FCA5A5; }
 .list-item.sale-item { background: #ECFDF5; border-left: 3px solid var(--secondary); }
-body.dark .list-item.warn-item { background: rgba(245,158,11,0.15); border-color: rgba(245,158,11,0.3); }
-body.dark .list-item.due-item { background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.3); }
+body.dark .list-item.warn-item { background: rgba(245,158,11,0.15); }
+body.dark .list-item.due-item { background: rgba(239,68,68,0.15); }
 body.dark .list-item.sale-item { background: rgba(16,185,129,0.15); }
 .list-item.clickable { cursor: pointer; }
 
@@ -254,11 +224,10 @@ body.dark .list-item.sale-item { background: rgba(16,185,129,0.15); }
   display: flex; flex-direction: column; align-items: center; gap: 3px;
 }
 .bottom-nav a.active { color: var(--primary); }
-.bottom-nav a.active .nav-icon { transform: scale(1.15); }
-.bottom-nav a .nav-icon { font-size: 21px; line-height: 1; transition: transform 0.3s; }
+.bottom-nav a .nav-icon { font-size: 21px; }
 .bottom-nav a .nav-label { font-size: 10px; font-weight: 500; }
 
-.loading-wrap { text-align: center; padding: 28px; color: var(--muted); font-size: 14px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.loading-wrap { text-align: center; padding: 28px; color: var(--muted); font-size: 14px; }
 
 .toast {
   position: fixed; bottom: 90px; left: 50%;
@@ -267,9 +236,8 @@ body.dark .list-item.sale-item { background: rgba(16,185,129,0.15); }
   padding: 14px 20px; border-radius: 14px;
   font-size: 14px; font-weight: 500;
   z-index: 1000; opacity: 0;
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all 0.4s;
   max-width: 90%; text-align: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
 }
 .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 .toast.success { background: var(--secondary); color: white; }
@@ -279,7 +247,6 @@ body.dark .list-item.sale-item { background: rgba(16,185,129,0.15); }
   text-align: center; padding: 28px 20px;
   background: var(--gradient); color: white;
   border-radius: 20px; margin-bottom: 16px;
-  position: relative; overflow: hidden;
 }
 .profile-avatar {
   width: 84px; height: 84px; border-radius: 50%;
@@ -288,15 +255,14 @@ body.dark .list-item.sale-item { background: rgba(16,185,129,0.15); }
   font-size: 36px; font-weight: 700;
   margin: 0 auto 12px;
   border: 4px solid rgba(255,255,255,0.4);
-  position: relative; z-index: 1;
 }
-.profile-header h2 { font-size: 22px; font-weight: 700; position: relative; z-index: 1; }
-.profile-header p { font-size: 13px; opacity: 0.9; margin-top: 4px; position: relative; z-index: 1; }
+.profile-header h2 { font-size: 22px; font-weight: 700; }
+.profile-header p { font-size: 13px; opacity: 0.9; margin-top: 4px; }
 
 .setting-item {
   display: flex; justify-content: space-between; align-items: center;
   padding: 16px 0; border-bottom: 1px solid var(--border);
-  cursor: pointer; transition: all 0.2s;
+  cursor: pointer;
 }
 .setting-item:last-child { border-bottom: none; }
 .setting-item .si-left { display: flex; align-items: center; gap: 14px; }
@@ -305,7 +271,7 @@ body.dark .list-item.sale-item { background: rgba(16,185,129,0.15); }
   background: var(--bg-alt); border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
 }
-.setting-item .si-text { font-size: 14px; font-weight: 600; color: var(--text); }
+.setting-item .si-text { font-size: 14px; font-weight: 600; }
 .setting-item .si-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
 
 .lang-switch, .theme-toggle { display: flex; background: var(--bg-alt); border-radius: 10px; padding: 4px; }
@@ -313,29 +279,26 @@ body.dark .list-item.sale-item { background: rgba(16,185,129,0.15); }
   padding: 7px 16px; border: none; background: transparent;
   border-radius: 7px; font-size: 13px; font-weight: 600;
   cursor: pointer; color: var(--muted); font-family: inherit;
-  transition: all 0.25s;
 }
-.lang-switch button.active, .theme-toggle button.active { background: var(--card); color: var(--primary); box-shadow: var(--shadow); }
+.lang-switch button.active, .theme-toggle button.active { background: var(--card); color: var(--primary); }
 
-.modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 500; display: none; align-items: flex-end; }
+.modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 500; display: none; align-items: flex-end; }
 .modal-overlay.show { display: flex; }
-.modal { background: var(--card); color: var(--text); width: 100%; max-width: 600px; margin: 0 auto; border-radius: 24px 24px 0 0; padding: 24px 18px; max-height: 90vh; overflow-y: auto; animation: slideUp 0.35s; }
+.modal { background: var(--card); color: var(--text); width: 100%; max-width: 600px; margin: 0 auto; border-radius: 24px 24px 0 0; padding: 24px 18px; max-height: 90vh; overflow-y: auto; }
 
 .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
-.report-tabs { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 4px; }
-.report-tabs::-webkit-scrollbar { display: none; }
+.report-tabs { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; }
 .report-tabs button {
   padding: 9px 18px; border: 1.5px solid var(--border);
   background: var(--card); border-radius: 10px;
   font-size: 13px; font-weight: 600; cursor: pointer;
   font-family: inherit; white-space: nowrap; color: var(--muted);
-  transition: all 0.25s;
 }
 .report-tabs button.active { background: var(--gradient); color: white; border-color: transparent; }
 .report-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
 .report-summary .item { background: var(--bg-alt); border-radius: 12px; padding: 14px; }
-.report-summary .item .lbl { font-size: 11px; color: var(--muted); font-weight: 500; }
+.report-summary .item .lbl { font-size: 11px; color: var(--muted); }
 .report-summary .item .val { font-size: 18px; font-weight: 700; margin-top: 6px; }
 .top-product { display: flex; justify-content: space-between; padding: 12px; background: var(--bg-alt); border-radius: 10px; margin-bottom: 8px; font-size: 13px; }
 .payment-badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; }
@@ -346,18 +309,14 @@ body.dark .list-item.sale-item { background: rgba(16,185,129,0.15); }
 .badge-partial { background: #DBEAFE; color: #1E40AF; }
 
 .hidden { display: none !important; }
-@media print {
-  .app-header, .bottom-nav, .report-tabs, .btn { display: none !important; }
-  body { background: white; padding: 0; color: black; }
-  .container { max-width: 100%; padding: 0; }
-}
+.mb-8 { margin-bottom: 8px; }
+.mb-12 { margin-bottom: 12px; }
 </style>
 </head>
 <body>
 
 <!-- AUTH -->
 <div id="authScreen">
-  <!-- LOGIN -->
   <div id="loginPage" class="auth-wrap">
     <div class="auth-card" id="loginCard">
       <div class="auth-logo">
@@ -376,48 +335,22 @@ body.dark .list-item.sale-item { background: rgba(16,185,129,0.15); }
         <div class="input-wrap"><span class="input-icon">🔒</span><input type="password" id="loginPassword" autocomplete="new-password"></div>
       </div>
       <button class="btn btn-primary" id="loginBtn" data-i18n="loginBtn">লগইন</button>
-      <div class="auth-link">
-        <a data-i18n="forgotPassword" onclick="gotoAuth('forgotPage')">পাসওয়ার্ড ভুলে গেছি?</a>
-      </div>
-      <div class="auth-link">
-        <span data-i18n="noAccount">Account নেই?</span>
-        <a data-i18n="signup" onclick="gotoAuth('signupPage')">সাইনআপ</a>
-      </div>
+      <div class="auth-link"><a data-i18n="forgotPassword" onclick="gotoAuth('forgotPage')">পাসওয়ার্ড ভুলে গেছি?</a></div>
+      <div class="auth-link"><span data-i18n="noAccount">Account নেই?</span> <a data-i18n="signup" onclick="gotoAuth('signupPage')">সাইনআপ</a></div>
     </div>
   </div>
 
-  <!-- SIGNUP -->
   <div id="signupPage" class="auth-wrap hidden">
     <div class="auth-card" id="signupCard">
-      <div class="auth-logo">
-        <span class="icon">🏪</span>
-        <h1>ShopMate AI</h1>
-        <p data-i18n="createAccount">নতুন Account</p>
-      </div>
+      <div class="auth-logo"><span class="icon">🏪</span><h1>ShopMate AI</h1><p data-i18n="createAccount">নতুন Account</p></div>
       <h2 data-i18n="signupTitle">সাইনআপ</h2>
       <div class="alert error" id="signupError"></div>
-      <div class="form-group">
-        <label data-i18n="yourName">আপনার নাম</label>
-        <div class="input-wrap"><span class="input-icon">👤</span><input type="text" id="signupName" autocomplete="off"></div>
-      </div>
-      <div class="form-group">
-        <label data-i18n="shopName">দোকানের নাম</label>
-        <div class="input-wrap"><span class="input-icon">🏬</span><input type="text" id="signupShopName" autocomplete="off"></div>
-      </div>
-      <div class="form-group">
-        <label data-i18n="phone">ফোন নম্বর</label>
-        <div class="input-wrap"><span class="input-icon">📱</span><input type="tel" id="signupPhone" maxlength="11" autocomplete="off"></div>
-      </div>
-      <div class="form-group">
-        <label data-i18n="password">পাসওয়ার্ড</label>
-        <div class="input-wrap"><span class="input-icon">🔒</span><input type="password" id="signupPassword" autocomplete="new-password"></div>
-      </div>
-      <div class="form-group">
-        <label data-i18n="confirmPassword">পাসওয়ার্ড আবার</label>
-        <div class="input-wrap"><span class="input-icon">🔒</span><input type="password" id="signupConfirm" autocomplete="new-password"></div>
-      </div>
-      <div class="form-group">
-        <label data-i18n="securityQ">সিকিউরিটি প্রশ্ন</label>
+      <div class="form-group"><label data-i18n="yourName">আপনার নাম</label><div class="input-wrap"><span class="input-icon">👤</span><input type="text" id="signupName" autocomplete="off"></div></div>
+      <div class="form-group"><label data-i18n="shopName">দোকানের নাম</label><div class="input-wrap"><span class="input-icon">🏬</span><input type="text" id="signupShopName" autocomplete="off"></div></div>
+      <div class="form-group"><label data-i18n="phone">ফোন নম্বর</label><div class="input-wrap"><span class="input-icon">📱</span><input type="tel" id="signupPhone" maxlength="11" autocomplete="off"></div></div>
+      <div class="form-group"><label data-i18n="password">পাসওয়ার্ড</label><div class="input-wrap"><span class="input-icon">🔒</span><input type="password" id="signupPassword" autocomplete="new-password"></div></div>
+      <div class="form-group"><label data-i18n="confirmPassword">পাসওয়ার্ড আবার</label><div class="input-wrap"><span class="input-icon">🔒</span><input type="password" id="signupConfirm" autocomplete="new-password"></div></div>
+      <div class="form-group"><label data-i18n="securityQ">সিকিউরিটি প্রশ্ন</label>
         <select id="signupSecurityQ">
           <option value="তোমার প্রিয় রঙ?">তোমার প্রিয় রঙ?</option>
           <option value="তোমার প্রথম স্কুলের নাম?">তোমার প্রথম স্কুলের নাম?</option>
@@ -426,51 +359,27 @@ body.dark .list-item.sale-item { background: rgba(16,185,129,0.15); }
           <option value="তোমার জন্মস্থান?">তোমার জন্মস্থান?</option>
         </select>
       </div>
-      <div class="form-group">
-        <label data-i18n="securityA">উত্তর</label>
-        <div class="input-wrap"><span class="input-icon">💡</span><input type="text" id="signupSecurityA" autocomplete="off"></div>
-      </div>
+      <div class="form-group"><label data-i18n="securityA">উত্তর</label><div class="input-wrap"><span class="input-icon">💡</span><input type="text" id="signupSecurityA" autocomplete="off"></div></div>
       <button class="btn btn-primary" id="signupBtn" data-i18n="signupBtn">সাইনআপ</button>
-      <div class="auth-link">
-        <span data-i18n="hasAccount">Account আছে?</span>
-        <a data-i18n="login" onclick="gotoAuth('loginPage')">লগইন</a>
-      </div>
+      <div class="auth-link"><span data-i18n="hasAccount">Account আছে?</span> <a data-i18n="login" onclick="gotoAuth('loginPage')">লগইন</a></div>
     </div>
   </div>
 
-  <!-- FORGOT -->
   <div id="forgotPage" class="auth-wrap hidden">
     <div class="auth-card">
-      <div class="auth-logo">
-        <span class="icon">🔑</span>
-        <h1 data-i18n="recoveryTitle">রিকভারি</h1>
-      </div>
+      <div class="auth-logo"><span class="icon">🔑</span><h1 data-i18n="recoveryTitle">রিকভারি</h1></div>
       <div class="alert error" id="forgotError"></div>
       <div id="forgotStep1">
-        <div class="form-group">
-          <label data-i18n="phone">ফোন নম্বর</label>
-          <div class="input-wrap"><span class="input-icon">📱</span><input type="tel" id="forgotPhone" maxlength="11" autocomplete="off"></div>
-        </div>
+        <div class="form-group"><label data-i18n="phone">ফোন নম্বর</label><div class="input-wrap"><span class="input-icon">📱</span><input type="tel" id="forgotPhone" maxlength="11" autocomplete="off"></div></div>
         <button class="btn btn-primary" id="forgotNextBtn" data-i18n="next">পরবর্তী</button>
       </div>
       <div id="forgotStep2" class="hidden">
-        <div class="form-group">
-          <label data-i18n="securityQ">সিকিউরিটি প্রশ্ন</label>
-          <div class="input-wrap"><span class="input-icon">❓</span><input type="text" id="forgotQuestion" readonly></div>
-        </div>
-        <div class="form-group">
-          <label data-i18n="securityA">উত্তর</label>
-          <div class="input-wrap"><span class="input-icon">💡</span><input type="text" id="forgotAnswer" autocomplete="off"></div>
-        </div>
-        <div class="form-group">
-          <label data-i18n="newPassword">নতুন পাসওয়ার্ড</label>
-          <div class="input-wrap"><span class="input-icon">🔒</span><input type="password" id="forgotNewPass" autocomplete="new-password"></div>
-        </div>
+        <div class="form-group"><label data-i18n="securityQ">সিকিউরিটি প্রশ্ন</label><div class="input-wrap"><span class="input-icon">❓</span><input type="text" id="forgotQuestion" readonly></div></div>
+        <div class="form-group"><label data-i18n="securityA">উত্তর</label><div class="input-wrap"><span class="input-icon">💡</span><input type="text" id="forgotAnswer" autocomplete="off"></div></div>
+        <div class="form-group"><label data-i18n="newPassword">নতুন পাসওয়ার্ড</label><div class="input-wrap"><span class="input-icon">🔒</span><input type="password" id="forgotNewPass" autocomplete="new-password"></div></div>
         <button class="btn btn-primary" id="forgotResetBtn" data-i18n="resetPassword">পাসওয়ার্ড পরিবর্তন</button>
       </div>
-      <div class="auth-link">
-        <a data-i18n="backToLogin" onclick="gotoAuth('loginPage')">← লগইনে ফিরে যান</a>
-      </div>
+      <div class="auth-link"><a data-i18n="backToLogin" onclick="gotoAuth('loginPage')">← লগইনে ফিরে যান</a></div>
     </div>
   </div>
 </div>
@@ -628,14 +537,8 @@ body.dark .list-item.sale-item { background: rgba(16,185,129,0.15); }
       <h2 class="page-title" data-i18n="products">পণ্য</h2>
       <div class="card">
         <div class="card-title"><div class="title-text">📦 <span data-i18n="newProductTitle">নতুন পণ্য</span></div></div>
-        <div class="form-group">
-          <label data-i18n="productName">পণ্যের নাম</label>
-          <div class="input-wrap"><span class="input-icon">📝</span><input type="text" id="pName" autocomplete="off"></div>
-        </div>
-        <div class="form-group">
-          <label data-i18n="category">ক্যাটাগরি</label>
-          <div class="input-wrap"><span class="input-icon">🏷️</span><input type="text" id="pCategory" autocomplete="off"></div>
-        </div>
+        <div class="form-group"><label data-i18n="productName">পণ্যের নাম</label><div class="input-wrap"><span class="input-icon">📝</span><input type="text" id="pName" autocomplete="off"></div></div>
+        <div class="form-group"><label data-i18n="category">ক্যাটাগরি</label><div class="input-wrap"><span class="input-icon">🏷️</span><input type="text" id="pCategory" autocomplete="off"></div></div>
         <div class="row-2 mb-12">
           <div><label data-i18n="purchasePrice">ক্রয়মূল্য</label><input type="number" id="pPurchasePrice" style="padding-left:14px;margin-top:6px"></div>
           <div><label data-i18n="sellingPrice">বিক্রয়মূল্য</label><input type="number" id="pSellingPrice" style="padding-left:14px;margin-top:6px"></div>
@@ -666,7 +569,7 @@ body.dark .list-item.sale-item { background: rgba(16,185,129,0.15); }
         </div>
         <div style="margin-bottom:12px;">
           <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
-            <span data-i18n="phone">📞 ফোন:</span><b id="detailPhone">-</b>
+            <span data-i18n="phoneLabel">📞 ফোন:</span><b id="detailPhone">-</b>
           </div>
           <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
             <span data-i18n="totalDue">💸 মোট বাকি:</span><b id="detailDue" style="color:var(--danger);">৳0</b>
@@ -749,21 +652,11 @@ body.dark .list-item.sale-item { background: rgba(16,185,129,0.15); }
   </div>
 
   <nav class="bottom-nav">
-    <a onclick="gotoPage('dashboard')" data-page="dashboard" class="active">
-      <span class="nav-icon">🏠</span><span class="nav-label" data-i18n="navHome">হোম</span>
-    </a>
-    <a onclick="gotoPage('sales')" data-page="sales">
-      <span class="nav-icon">🛒</span><span class="nav-label" data-i18n="navSales">বিক্রয়</span>
-    </a>
-    <a onclick="gotoPage('products')" data-page="products">
-      <span class="nav-icon">📦</span><span class="nav-label" data-i18n="navProducts">পণ্য</span>
-    </a>
-    <a onclick="gotoPage('customers')" data-page="customers">
-      <span class="nav-icon">👥</span><span class="nav-label" data-i18n="navCustomers">কাস্টমার</span>
-    </a>
-    <a onclick="gotoPage('reports')" data-page="reports">
-      <span class="nav-icon">📊</span><span class="nav-label" data-i18n="navReports">রিপোর্ট</span>
-    </a>
+    <a onclick="gotoPage('dashboard')" data-page="dashboard" class="active"><span class="nav-icon">🏠</span><span class="nav-label" data-i18n="navHome">হোম</span></a>
+    <a onclick="gotoPage('sales')" data-page="sales"><span class="nav-icon">🛒</span><span class="nav-label" data-i18n="navSales">বিক্রয়</span></a>
+    <a onclick="gotoPage('products')" data-page="products"><span class="nav-icon">📦</span><span class="nav-label" data-i18n="navProducts">পণ্য</span></a>
+    <a onclick="gotoPage('customers')" data-page="customers"><span class="nav-icon">👥</span><span class="nav-label" data-i18n="navCustomers">কাস্টমার</span></a>
+    <a onclick="gotoPage('reports')" data-page="reports"><span class="nav-icon">📊</span><span class="nav-label" data-i18n="navReports">রিপোর্ট</span></a>
   </nav>
 </div>
 
@@ -794,12 +687,12 @@ const I18N = {
     languageSub:"Language",logout:"লগআউট",logoutSub:"Logout",navHome:"হোম",navSales:"বিক্রয়",navProducts:"পণ্য",navCustomers:"কাস্টমার",navReports:"রিপোর্ট",
     todayPaid:"আজকের নগদ",todayDue:"আজকের বাকি",pcs:"পিস",buy:"ক্রয়",sell:"বিক্রয়",profit:"লাভ",due:"বাকি",noPhone:"ফোন নেই",
     noProducts:"কোনো পণ্য নেই",noSales:"আজ কোনো বিক্রয় নেই",noCustomers:"কোনো কাস্টমার নেই",allPaid:"সব পরিশোধ করেছে",
-    totalDue:"মোট বাকি",totalPaid:"মোট পরিশোধ",takePayment:"কত টাকা নিচ্ছেন?",note:"নোট (ঐচ্ছিক)",savePayment:"💾 Payment সেভ",
+    totalDue:"মোট বাকি",totalPaid:"মোট পরিশোধ",phoneLabel:"ফোন",takePayment:"কত টাকা নিচ্ছেন?",note:"নোট (ঐচ্ছিক)",savePayment:"💾 Payment সেভ",
     customerPhone:"📱 ফোন নম্বর (ঐচ্ছিক)",customerAddress:"📍 ঠিকানা (ঐচ্ছিক)",seeAll:"সব দেখুন →",back:"ফিরে যান",
     lowStockTitle:"স্টক কম পণ্যের তালিকা",totalBill:"মোট বিল:",howMuchNow:"💵 এখন কত টাকা দিচ্ছে?",remainingDue:"বাকি থাকবে:",
     todayTab:"আজ",weekTab:"৭ দিন",monthTab:"৩০ দিন",yearTab:"১ বছর",theme:"থিম",
     fillAll:"সব তথ্য পূরণ করুন",passwordShort:"পাসওয়ার্ড কমপক্ষে ৬ অক্ষর",passwordMismatch:"পাসওয়ার্ড মিলছে না",
-    phoneInvalid:"ফোন ১১ digit",saving:"সেভ হচ্ছে...",saved:"✅ সেভ হয়েছে",selectProductWarn:"পণ্য বাছাই করুন",
+    phoneInvalid:"ফোন ১১ digit",saving:"সেভ হচ্ছে...",saved:"সেভ হয়েছে",selectProductWarn:"পণ্য বাছাই করুন",
     customerNameWarn:"কাস্টমারের নাম দিন",loading:"লোড হচ্ছে..."
   },
   en: {
@@ -817,12 +710,12 @@ const I18N = {
     languageSub:"Language",logout:"Logout",logoutSub:"Logout",navHome:"Home",navSales:"Sales",navProducts:"Products",navCustomers:"Customers",navReports:"Reports",
     todayPaid:"Today's Cash",todayDue:"Today's Due",pcs:"pcs",buy:"Buy",sell:"Sell",profit:"Profit",due:"Due",noPhone:"No phone",
     noProducts:"No products",noSales:"No sales today",noCustomers:"No customers",allPaid:"All paid",
-    totalDue:"Total Due",totalPaid:"Total Paid",takePayment:"How much to take?",note:"Note (optional)",savePayment:"💾 Save Payment",
+    totalDue:"Total Due",totalPaid:"Total Paid",phoneLabel:"Phone",takePayment:"How much to take?",note:"Note (optional)",savePayment:"💾 Save Payment",
     customerPhone:"📱 Phone (optional)",customerAddress:"📍 Address (optional)",seeAll:"See all →",back:"Back",
     lowStockTitle:"Low Stock Products",totalBill:"Total Bill:",howMuchNow:"💵 How much now?",remainingDue:"Remaining Due:",
     todayTab:"Today",weekTab:"7 Days",monthTab:"30 Days",yearTab:"1 Year",theme:"Theme",
     fillAll:"Please fill all fields",passwordShort:"Password must be 6+ chars",passwordMismatch:"Passwords don't match",
-    phoneInvalid:"Phone must be 11 digits",saving:"Saving...",saved:"✅ Saved",selectProductWarn:"Select a product",
+    phoneInvalid:"Phone must be 11 digits",saving:"Saving...",saved:"Saved",selectProductWarn:"Select a product",
     customerNameWarn:"Enter customer name",loading:"Loading..."
   }
 };
@@ -839,7 +732,6 @@ function applyLanguage() {
 }
 function setLang(lang) { currentLang = lang; localStorage.setItem("shopmate_lang", lang); applyLanguage(); }
 
-// THEME
 function setTheme(theme) {
   if (theme === "dark") document.body.classList.add("dark");
   else document.body.classList.remove("dark");
@@ -848,10 +740,9 @@ function setTheme(theme) {
 }
 function updateThemeUI() {
   const isDark = document.body.classList.contains("dark");
-  const lightBtn = document.getElementById("themeLight");
-  const darkBtn = document.getElementById("themeDark");
-  if (lightBtn) lightBtn.classList.toggle("active", !isDark);
-  if (darkBtn) darkBtn.classList.toggle("active", isDark);
+  const lb = document.getElementById("themeLight"), db = document.getElementById("themeDark");
+  if (lb) lb.classList.toggle("active", !isDark);
+  if (db) db.classList.toggle("active", isDark);
 }
 function loadTheme() {
   const saved = localStorage.getItem("shopmate_theme") || "light";
@@ -859,7 +750,6 @@ function loadTheme() {
   updateThemeUI();
 }
 
-// API
 const apiCache = {};
 const CACHE_DURATION = 8000;
 async function apiGet(action, extra = {}) {
@@ -882,7 +772,6 @@ async function apiPost(body) {
   return res.json();
 }
 
-// UI
 function showToast(msg, type = "success") {
   const toast = document.getElementById("toast");
   toast.textContent = msg;
@@ -946,7 +835,6 @@ function gotoPage(name) {
   if (name === "lowstock") loadLowStockFull();
 }
 
-// SIGNUP
 document.getElementById("signupBtn").addEventListener("click", async function() {
   const name = document.getElementById("signupName").value.trim();
   const shopName = document.getElementById("signupShopName").value.trim();
@@ -959,37 +847,24 @@ document.getElementById("signupBtn").addEventListener("click", async function() 
   if (phone.length !== 11) return showAlert("signupError", t("phoneInvalid"));
   if (password.length < 6) return showAlert("signupError", t("passwordShort"));
   if (password !== confirm) return showAlert("signupError", t("passwordMismatch"));
-  this.disabled = true;
-  this.innerHTML = '<span class="spinner"></span> ' + t("saving");
+  this.disabled = true; this.innerHTML = '<span class="spinner"></span> ' + t("saving");
   try {
     const r = await apiPost({ action: "register", name, shopName, phone, password, securityQ, securityA });
-    if (r.success) {
-      showAlert("signupError", r.message, "success");
-      setTimeout(() => loginUser(r.user), 800);
-    } else {
-      showAlert("signupError", r.message);
-      document.getElementById("signupCard").classList.add("shake");
-      setTimeout(() => document.getElementById("signupCard").classList.remove("shake"), 500);
-    }
+    if (r.success) { showAlert("signupError", r.message, "success"); setTimeout(() => loginUser(r.user), 800); }
+    else { showAlert("signupError", r.message); document.getElementById("signupCard").classList.add("shake"); setTimeout(() => document.getElementById("signupCard").classList.remove("shake"), 500); }
   } catch (e) { showAlert("signupError", "Network error"); }
   finally { this.disabled = false; this.textContent = t("signupBtn"); }
 });
 
-// LOGIN
 document.getElementById("loginBtn").addEventListener("click", async function() {
   const phone = document.getElementById("loginPhone").value.trim();
   const password = document.getElementById("loginPassword").value;
   if (!phone || !password) return showAlert("loginError", t("fillAll"));
-  this.disabled = true;
-  this.innerHTML = '<span class="spinner"></span> ' + t("loading");
+  this.disabled = true; this.innerHTML = '<span class="spinner"></span> ' + t("loading");
   try {
     const r = await apiPost({ action: "login", phone, password });
     if (r.success) loginUser(r.user);
-    else {
-      showAlert("loginError", r.message);
-      document.getElementById("loginCard").classList.add("shake");
-      setTimeout(() => document.getElementById("loginCard").classList.remove("shake"), 500);
-    }
+    else { showAlert("loginError", r.message); document.getElementById("loginCard").classList.add("shake"); setTimeout(() => document.getElementById("loginCard").classList.remove("shake"), 500); }
   } catch (e) { showAlert("loginError", "Network error"); }
   finally { this.disabled = false; this.textContent = t("loginBtn"); }
 });
@@ -1012,18 +887,7 @@ function showConfirm(title, message, onConfirm) {
   const overlay = document.createElement("div");
   overlay.className = "modal-overlay show";
   overlay.style.zIndex = "2000";
-  overlay.innerHTML =
-    '<div class="modal" style="border-radius:20px;max-width:400px;margin:auto;">' +
-      '<div style="text-align:center;padding:10px 0 20px;">' +
-        '<div style="font-size:48px;margin-bottom:12px;">⚠️</div>' +
-        '<h3 style="font-size:18px;margin-bottom:8px;color:var(--text);">' + title + '</h3>' +
-        '<p style="color:var(--muted);font-size:14px;margin-bottom:20px;">' + message + '</p>' +
-        '<div style="display:flex;gap:10px;">' +
-          '<button class="btn btn-secondary" id="confirmCancel">বাতিল</button>' +
-          '<button class="btn btn-primary" id="confirmOk">হ্যাঁ</button>' +
-        '</div>' +
-      '</div>' +
-    '</div>';
+  overlay.innerHTML = '<div class="modal" style="border-radius:20px;max-width:400px;margin:auto;"><div style="text-align:center;padding:10px 0 20px;"><div style="font-size:48px;margin-bottom:12px;">⚠️</div><h3 style="font-size:18px;margin-bottom:8px;color:var(--text);">' + title + '</h3><p style="color:var(--muted);font-size:14px;margin-bottom:20px;">' + message + '</p><div style="display:flex;gap:10px;"><button class="btn btn-secondary" id="confirmCancel">বাতিল</button><button class="btn btn-primary" id="confirmOk">হ্যাঁ</button></div></div></div>';
   document.body.appendChild(overlay);
   overlay.querySelector("#confirmCancel").onclick = () => overlay.remove();
   overlay.querySelector("#confirmOk").onclick = () => { overlay.remove(); onConfirm(); };
@@ -1041,7 +905,6 @@ function showMainApp() {
   gotoPage("dashboard");
 }
 
-// FORGOT
 document.getElementById("forgotNextBtn").addEventListener("click", async function() {
   const phone = document.getElementById("forgotPhone").value.trim();
   if (phone.length !== 11) return showAlert("forgotError", t("phoneInvalid"));
@@ -1071,7 +934,6 @@ document.getElementById("forgotResetBtn").addEventListener("click", async functi
   finally { this.disabled = false; }
 });
 
-// DASHBOARD
 async function loadDashboard() {
   try {
     const r = await apiGet("getDashboard");
@@ -1093,45 +955,26 @@ async function loadDashboard() {
   } catch (e) { console.error(e); }
 }
 
-// LOW STOCK FULL PAGE
 async function loadLowStockFull() {
   const list = document.getElementById("lowStockFullList");
   list.innerHTML = '<div class="loading-wrap"><div class="spinner-dark"></div>' + t("loading") + '</div>';
   try {
     const r = await apiGet("getProducts");
-    if (!r.success || !r.data) {
-      list.innerHTML = '<div class="empty-state"><span class="icon">📦</span>' + t("noProducts") + '</div>';
-      return;
-    }
+    if (!r.success || !r.data) { list.innerHTML = '<div class="empty-state"><span class="icon">📦</span>' + t("noProducts") + '</div>'; return; }
     const lowStock = r.data.filter(p => Number(p.Stock) <= Number(p.LowStockAlert));
-    if (lowStock.length === 0) {
-      list.innerHTML = '<div class="empty-state"><span class="icon">✅</span>' + t("allGood") + '</div>';
-      return;
-    }
+    if (lowStock.length === 0) { list.innerHTML = '<div class="empty-state"><span class="icon">✅</span>' + t("allGood") + '</div>'; return; }
     list.innerHTML = lowStock.map(p =>
-      '<div class="list-item warn-item">' +
-        '<div class="left-side">' +
-          '<div class="item-title">' + p.ProductName + '</div>' +
-          '<div class="item-sub">' + (p.Category || '') + ' | ' + t("stock") + ': ' + p.Stock + ' | Low: ' + p.LowStockAlert + '</div>' +
-        '</div>' +
-        '<div class="item-value warn">' + p.Stock + ' ' + t("pcs") + '</div>' +
-      '</div>'
+      '<div class="list-item warn-item"><div class="left-side"><div class="item-title">' + p.ProductName + '</div><div class="item-sub">' + (p.Category || '') + ' | ' + t("stock") + ': ' + p.Stock + ' | Low: ' + p.LowStockAlert + '</div></div><div class="item-value warn">' + p.Stock + ' ' + t("pcs") + '</div></div>'
     ).join("");
-  } catch (e) {
-    list.innerHTML = '<div class="empty-state"><span class="icon">❌</span>' + e.message + '</div>';
-  }
+  } catch (e) { list.innerHTML = '<div class="empty-state"><span class="icon">❌</span>' + e.message + '</div>'; }
 }
 
-// PRODUCTS
 async function loadProductList() {
   const list = document.getElementById("productList");
   list.innerHTML = '<div class="loading-wrap"><div class="spinner-dark"></div>' + t("loading") + '</div>';
   try {
     const r = await apiGet("getProducts");
-    if (!r.success || !r.data || r.data.length === 0) {
-      list.innerHTML = '<div class="empty-state"><span class="icon">📦</span>' + t("noProducts") + '</div>';
-      return;
-    }
+    if (!r.success || !r.data || r.data.length === 0) { list.innerHTML = '<div class="empty-state"><span class="icon">📦</span>' + t("noProducts") + '</div>'; return; }
     cache.products = r.data;
     list.innerHTML = r.data.map(p =>
       '<div class="list-item"><div class="left-side"><div class="item-title">' + p.ProductName + '</div><div class="item-sub">' + t("buy") + ': ৳' + p.PurchasePrice + ' | ' + t("sell") + ': ৳' + p.SellingPrice + '</div></div><div class="item-value' + (Number(p.Stock) <= Number(p.LowStockAlert) ? ' warn' : '') + '">' + p.Stock + '</div></div>'
@@ -1147,9 +990,7 @@ async function loadProductsForSale() {
     if (r.success && r.data && r.data.length > 0) {
       cache.products = r.data;
       sel.innerHTML = '<option value="">-- ' + t("selectProduct") + ' --</option>';
-      r.data.forEach(p => {
-        sel.innerHTML += '<option value="' + p.ProductID + '">' + p.ProductName + ' (' + t("stock") + ': ' + p.Stock + ') - ৳' + p.SellingPrice + '</option>';
-      });
+      r.data.forEach(p => { sel.innerHTML += '<option value="' + p.ProductID + '">' + p.ProductName + ' (' + t("stock") + ': ' + p.Stock + ') - ৳' + p.SellingPrice + '</option>'; });
     } else sel.innerHTML = '<option value="">-- ' + t("noProducts") + ' --</option>';
   } catch (e) { sel.innerHTML = '<option value="">-- Error --</option>'; }
 }
@@ -1165,32 +1006,23 @@ document.getElementById("saveProductBtn").addEventListener("click", async functi
     lowStockAlert: document.getElementById("pLowStock").value || 5
   };
   if (!body.productName || !body.purchasePrice || !body.sellingPrice || !body.stock) return showToast(t("fillAll"), "error");
-  this.disabled = true;
-  this.innerHTML = '<span class="spinner"></span> ' + t("saving");
+  this.disabled = true; this.innerHTML = '<span class="spinner"></span> ' + t("saving");
   try {
     const r = await apiPost(body);
-    if (r.success) {
-      showToast("✅ " + t("saved") + " (ID: " + r.productId + ")");
-      loadProductList();
-      loadDashboard();
-    } else showToast(r.message || "Error", "error");
+    if (r.success) { showToast("✅ " + t("saved") + " (ID: " + r.productId + ")"); loadProductList(); loadDashboard(); }
+    else showToast(r.message || "Error", "error");
   } catch (e) { showToast("Network error", "error"); }
   finally { this.disabled = false; this.textContent = t("saveProduct"); }
 });
 
-// SALES
 function onProductSelect() { updateSalePreview(); }
 function onPaymentChange() {
   const method = document.getElementById("salePayment").value;
   const preview = document.getElementById("salePreview");
   const dueFields = document.getElementById("dueFields");
   preview.classList.remove("hidden");
-  if (method === "Due") {
-    dueFields.classList.remove("hidden");
-    document.getElementById("salePaidAmount").value = 0;
-  } else {
-    dueFields.classList.add("hidden");
-  }
+  if (method === "Due") { dueFields.classList.remove("hidden"); document.getElementById("salePaidAmount").value = 0; }
+  else dueFields.classList.add("hidden");
   updateSalePreview();
 }
 function updateSalePreview() {
@@ -1220,8 +1052,7 @@ document.getElementById("saveSaleBtn").addEventListener("click", async function(
   const paidAmount = document.getElementById("salePaidAmount").value || 0;
   if (!productId) return showToast(t("selectProductWarn"), "error");
   if (paymentMethod === "Due" && !customerName) return showToast(t("customerNameWarn"), "error");
-  this.disabled = true;
-  this.innerHTML = '<span class="spinner"></span> ' + t("saving");
+  this.disabled = true; this.innerHTML = '<span class="spinner"></span> ' + t("saving");
   try {
     const r = await apiPost({
       action: "addSale", productId, quantity: qty,
@@ -1239,9 +1070,7 @@ document.getElementById("saveSaleBtn").addEventListener("click", async function(
       document.getElementById("saleCustomerAddress").value = "";
       document.getElementById("salePaidAmount").value = 0;
       document.getElementById("salePreview").classList.add("hidden");
-      loadProductsForSale();
-      loadTodaySales();
-      loadDashboard();
+      loadProductsForSale(); loadTodaySales(); loadDashboard();
     } else showToast(r.message || "Error", "error");
   } catch (e) { showToast("Network error", "error"); }
   finally { this.disabled = false; this.textContent = t("saveSale"); }
@@ -1252,14 +1081,10 @@ async function loadTodaySales() {
   list.innerHTML = '<div class="loading-wrap"><div class="spinner-dark"></div>' + t("loading") + '</div>';
   try {
     const r = await apiGet("getSales");
-    if (!r.success || !r.data || r.data.length === 0) {
-      list.innerHTML = '<div class="empty-state"><span class="icon">🛒</span>' + t("noSales") + '</div>'; return;
-    }
+    if (!r.success || !r.data || r.data.length === 0) { list.innerHTML = '<div class="empty-state"><span class="icon">🛒</span>' + t("noSales") + '</div>'; return; }
     const today = new Date().toDateString();
     const todaySales = r.data.filter(s => new Date(s.Date).toDateString() === today);
-    if (todaySales.length === 0) {
-      list.innerHTML = '<div class="empty-state"><span class="icon">🛒</span>' + t("noSales") + '</div>'; return;
-    }
+    if (todaySales.length === 0) { list.innerHTML = '<div class="empty-state"><span class="icon">🛒</span>' + t("noSales") + '</div>'; return; }
     list.innerHTML = todaySales.reverse().map(s => {
       const badge = getBadge(s.PaymentMethod);
       return '<div class="list-item sale-item"><div class="left-side"><div class="item-title">' + s.ProductName + ' × ' + s.Quantity + '</div><div class="item-sub">' + badge + ' | ' + t("profit") + ': ৳' + s.Profit + (Number(s.DueAmount) > 0 ? ' | ' + t("due") + ': ৳' + s.DueAmount : '') + '</div></div><div class="item-value">৳' + s.TotalSale + '</div></div>';
@@ -1278,19 +1103,14 @@ function getBadge(method) {
   return map[method] || method;
 }
 
-// CUSTOMERS
 async function loadCustomerList() {
   const list = document.getElementById("customerList");
   list.innerHTML = '<div class="loading-wrap"><div class="spinner-dark"></div>' + t("loading") + '</div>';
   try {
     const r = await apiGet("getCustomers");
-    if (!r.success || !r.data || r.data.length === 0) {
-      list.innerHTML = '<div class="empty-state"><span class="icon">👥</span>' + t("noCustomers") + '</div>'; return;
-    }
+    if (!r.success || !r.data || r.data.length === 0) { list.innerHTML = '<div class="empty-state"><span class="icon">👥</span>' + t("noCustomers") + '</div>'; return; }
     const withDue = r.data.filter(c => Number(c.TotalDue) > 0);
-    if (withDue.length === 0) {
-      list.innerHTML = '<div class="empty-state"><span class="icon">✅</span>' + t("allPaid") + '</div>'; return;
-    }
+    if (withDue.length === 0) { list.innerHTML = '<div class="empty-state"><span class="icon">✅</span>' + t("allPaid") + '</div>'; return; }
     window._customers = r.data;
     list.innerHTML = withDue.map((c) =>
       '<div class="list-item due-item clickable" onclick="openCustomerDetail(\'' + c.CustomerID + '\')"><div class="left-side"><div class="item-title">' + c.Name + '</div><div class="item-sub">' + (c.Phone || t("noPhone")) + '</div></div><div class="item-value red">৳' + c.TotalDue + '</div></div>'
@@ -1319,18 +1139,11 @@ async function saveDuePayment() {
   if (!currentCustomer) return showToast("কাস্টমার select করুন", "error");
   const btn = event.target;
   if (btn.disabled) return;
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span> Processing...';
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Processing...';
   const amount = Number(document.getElementById("duePaymentAmount").value);
   const note = document.getElementById("duePaymentNote").value.trim();
-  if (!amount || amount <= 0) {
-    btn.disabled = false; btn.textContent = t("savePayment");
-    return showToast("টাকার পরিমাণ দিন", "error");
-  }
-  if (amount > Number(currentCustomer.TotalDue)) {
-    btn.disabled = false; btn.textContent = t("savePayment");
-    return showToast(t("due") + " ৳" + currentCustomer.TotalDue + " — বেশি নেওয়া যাবে না", "error");
-  }
+  if (!amount || amount <= 0) { btn.disabled = false; btn.textContent = t("savePayment"); return showToast("টাকার পরিমাণ দিন", "error"); }
+  if (amount > Number(currentCustomer.TotalDue)) { btn.disabled = false; btn.textContent = t("savePayment"); return showToast(t("due") + " ৳" + currentCustomer.TotalDue + " — বেশি নেওয়া যাবে না", "error"); }
   try {
     const r = await apiPost({
       action: "addDuePayment", customerName: currentCustomer.Name,
@@ -1341,9 +1154,7 @@ async function saveDuePayment() {
       document.getElementById("duePaymentAmount").value = "";
       document.getElementById("duePaymentNote").value = "";
       closeCustomerDetail();
-      await loadCustomerList();
-      await loadPaymentList();
-      await loadDashboard();
+      await loadCustomerList(); await loadPaymentList(); await loadDashboard();
     } else showToast(r.message || "Error", "error");
   } catch (e) { showToast("Network error", "error"); }
   finally { btn.disabled = false; btn.textContent = t("savePayment"); }
@@ -1354,9 +1165,7 @@ async function loadPaymentList() {
   list.innerHTML = '<div class="loading-wrap"><div class="spinner-dark"></div>' + t("loading") + '</div>';
   try {
     const r = await apiGet("getPayments");
-    if (!r.success || !r.data || r.data.length === 0) {
-      list.innerHTML = '<div class="empty-state"><span class="icon">📜</span>No payments</div>'; return;
-    }
+    if (!r.success || !r.data || r.data.length === 0) { list.innerHTML = '<div class="empty-state"><span class="icon">📜</span>No payments</div>'; return; }
     const recent = r.data.slice(-10).reverse();
     list.innerHTML = recent.map(p =>
       '<div class="list-item"><div class="left-side"><div class="item-title">' + p.CustomerName + '</div><div class="item-sub">' + fmtDate(p.Date) + ' | ' + (p.Type || "Due Payment") + '</div></div><div class="item-value">৳' + p.Amount + '</div></div>'
@@ -1364,7 +1173,6 @@ async function loadPaymentList() {
   } catch (e) { list.innerHTML = '<div class="empty-state"><span class="icon">❌</span>' + e.message + '</div>'; }
 }
 
-// REPORTS
 function switchReport(range) {
   currentReportRange = range;
   document.querySelectorAll(".report-tabs button").forEach(b => b.classList.toggle("active", b.dataset.range === range));
@@ -1427,7 +1235,6 @@ function printReport() {
   setTimeout(() => w.print(), 300);
 }
 
-// INIT
 function init() {
   currentLang = localStorage.getItem("shopmate_lang") || "bn";
   applyLanguage();
