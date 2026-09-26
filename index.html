@@ -672,9 +672,17 @@ body.dark .badge-partial { background: rgba(59,130,246,0.2); color: #93C5FD; }
     <b id="previewTotal" style="color:var(--primary);font-size:18px;">৳0</b>
   </div>
   <div id="dueFields" class="hidden">
-    <div class="form-group" style="margin-bottom:12px;">
+   <div class="form-group" style="margin-bottom:12px;">
               <label data-i18n="customerName">কাস্টমারের নাম</label>
               <div class="input-wrap"><span class="input-icon">👤</span><input type="text" id="saleCustomerName" autocomplete="off"></div>
+            </div>
+            <div class="form-group" style="margin-bottom:12px;">
+              <label data-i18n="customerPhone">📱 ফোন নম্বর (ঐচ্ছিক)</label>
+              <div class="input-wrap"><span class="input-icon">📱</span><input type="tel" id="saleCustomerPhone" maxlength="11" autocomplete="off"></div>
+            </div>
+            <div class="form-group" style="margin-bottom:12px;">
+              <label data-i18n="customerAddress">📍 ঠিকানা (ঐচ্ছিক)</label>
+              <div class="input-wrap"><span class="input-icon">📍</span><input type="text" id="saleCustomerAddress" autocomplete="off"></div>
             </div>
             <div class="form-group" style="margin-bottom:12px;">
               <label data-i18n="customerPhone">📱 ফোন নম্বর (ঐচ্ছিক)</label>
@@ -877,7 +885,7 @@ const I18N = {
     saveSale:"💾 বিক্রয় সেভ",todaySalesList:"আজকের বিক্রয়",products:"পণ্য",newProductTitle:"নতুন পণ্য",productName:"পণ্যের নাম",
     category:"ক্যাটাগরি",purchasePrice:"ক্রয়মূল্য",sellingPrice:"বিক্রয়মূল্য",stock:"স্টক",lowStockAlert:"Low Alert",saveProduct:"💾 পণ্য সেভ",
     allProducts:"সব পণ্য",dueCustomers:"বাকি কাস্টমার",paymentHistory:"Payment History",profile:"প্রোফাইল",settings:"সেটিংস",language:"ভাষা",
-    languageSub:"Language",logout:"লগআউট",logoutSub:"Logout",navHome:"হোম",navSales:"বিক্রয়",navProducts:"পণ্য",navCustomers:"কাস্টমার",navReports:"রিপোর্ট",todayPaid:"আজকের নগদ",todayDue:"আজকের বাকি",stock:"স্টক",pcs:"পিস",buy:"ক্রয়",sell:"বিক্রয়",profit:"লাভ",due:"বাকি",phone:"ফোন",address:"ঠিকানা",noPhone:"ফোন নেই",noProducts:"কোনো পণ্য নেই",noSales:"আজ কোনো বিক্রয় নেই",noCustomers:"কোনো কাস্টমার নেই",allPaid:"সব পরিশোধ",customerDetail:"কাস্টমার বিবরণ",totalDue:"মোট বাকি",totalPaid:"মোট পরিশোধ",takePayment:"টাকা নিন",amount:"টাকার পরিমাণ",note:"নোট",savePayment:"Payment সেভ",paymentSuccess:"পেমেন্ট সফল",customerPhone:"📱 ফোন (ঐচ্ছিক)",customerAddress:"📍 ঠিকানা (ঐচ্ছিক)",
+    languageSub:"Language",logout:"লগআউট",logoutSub:"Logout",navHome:"হোম",navSales:"বিক্রয়",navProducts:"পণ্য",navCustomers:"কাস্টমার",navReports:"রিপোর্ট",customerPhone:"📱 ফোন (ঐচ্ছিক)",customerAddress:"📍 ঠিকানা (ঐচ্ছিক)",todayPaid:"আজকের নগদ",todayDue:"আজকের বাকি",stock:"স্টক",pcs:"পিস",buy:"ক্রয়",sell:"বিক্রয়",profit:"লাভ",due:"বাকি",phone:"ফোন",address:"ঠিকানা",noPhone:"ফোন নেই",noProducts:"কোনো পণ্য নেই",noSales:"আজ কোনো বিক্রয় নেই",noCustomers:"কোনো কাস্টমার নেই",allPaid:"সব পরিশোধ",customerDetail:"কাস্টমার বিবরণ",totalDue:"মোট বাকি",totalPaid:"মোট পরিশোধ",takePayment:"টাকা নিন",amount:"টাকার পরিমাণ",note:"নোট",savePayment:"Payment সেভ",paymentSuccess:"পেমেন্ট সফল",customerPhone:"📱 ফোন (ঐচ্ছিক)",customerAddress:"📍 ঠিকানা (ঐচ্ছিক)",
     fillAll:"সব তথ্য পূরণ করুন",passwordShort:"পাসওয়ার্ড কমপক্ষে ৬ অক্ষর",passwordMismatch:"পাসওয়ার্ড মিলছে না",phoneInvalid:"ফোন ১১ digit",
     saving:"সেভ হচ্ছে...",saved:"✅ সেভ হয়েছে",selectProductWarn:"পণ্য বাছাই করুন",customerNameWarn:"কাস্টমারের নাম দিন",loading:"লোড হচ্ছে..."
   },
@@ -893,7 +901,7 @@ const I18N = {
     saveSale:"💾 Save Sale",todaySalesList:"Today's Sales",products:"Products",newProductTitle:"New Product",productName:"Product Name",
     category:"Category",purchasePrice:"Purchase Price",sellingPrice:"Selling Price",stock:"Stock",lowStockAlert:"Low Alert",saveProduct:"💾 Save Product",
     allProducts:"All Products",dueCustomers:"Due Customers",paymentHistory:"Payment History",profile:"Profile",settings:"Settings",language:"Language",
-    languageSub:"Language",logout:"Logout",logoutSub:"Logout",navHome:"Home",navSales:"Sales",navProducts:"Products",navCustomers:"Customers",navReports:"Reports",todayPaid:"Today's Cash",todayDue:"Today's Due",stock:"Stock",pcs:"pcs",buy:"Buy",sell:"Sell",profit:"Profit",due:"Due",phone:"Phone",address:"Address",noPhone:"No phone",noProducts:"No products",noSales:"No sales today",noCustomers:"No customers",allPaid:"All paid",customerDetail:"Customer Details",totalDue:"Total Due",totalPaid:"Total Paid",takePayment:"Take Payment",amount:"Amount",note:"Note",savePayment:"Save Payment",paymentSuccess:"Payment Successful",customerPhone:"📱 Phone (optional)",customerAddress:"📍 Address (optional)",
+    languageSub:"Language",logout:"Logout",logoutSub:"Logout",navHome:"Home",navSales:"Sales",navProducts:"Products",navCustomers:"Customers",navReports:"Reports",customerPhone:"📱 Phone (optional)",customerAddress:"📍 Address (optional)",todayPaid:"Today's Cash",todayDue:"Today's Due",stock:"Stock",pcs:"pcs",buy:"Buy",sell:"Sell",profit:"Profit",due:"Due",phone:"Phone",address:"Address",noPhone:"No phone",noProducts:"No products",noSales:"No sales today",noCustomers:"No customers",allPaid:"All paid",customerDetail:"Customer Details",totalDue:"Total Due",totalPaid:"Total Paid",takePayment:"Take Payment",amount:"Amount",note:"Note",savePayment:"Save Payment",paymentSuccess:"Payment Successful",customerPhone:"📱 Phone (optional)",customerAddress:"📍 Address (optional)",
     fillAll:"Please fill all fields",passwordShort:"Password must be 6+ chars",passwordMismatch:"Passwords don't match",phoneInvalid:"Phone must be 11 digits",
     saving:"Saving...",saved:"✅ Saved",selectProductWarn:"Select a product",customerNameWarn:"Enter customer name",loading:"Loading..."
   }
