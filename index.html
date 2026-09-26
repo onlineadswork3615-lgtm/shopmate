@@ -6,11 +6,14 @@
 <title>ShopMate AI</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#4F46E5">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="ShopMate">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="shortcut icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -28,7 +31,6 @@
   --gradient: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
   --gradient-soft: linear-gradient(135deg, rgba(79,70,229,0.08), rgba(124,58,237,0.08));
 }
-
 body.dark {
   --bg: #0F172A; --bg-alt: #1E293B;
   --card: #1E293B; --card-hover: #334155;
@@ -39,7 +41,6 @@ body.dark {
   --shadow-hover: 0 8px 24px rgba(79,70,229,0.3);
   --gradient-soft: linear-gradient(135deg, rgba(79,70,229,0.2), rgba(124,58,237,0.2));
 }
-
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 html { scroll-behavior: smooth; }
 body {
@@ -50,7 +51,6 @@ body {
 }
 body.bn { font-family: 'Noto Sans Bengali','Inter',sans-serif; }
 
-/* Animations */
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
@@ -58,25 +58,17 @@ body.bn { font-family: 'Noto Sans Bengali','Inter',sans-serif; }
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
 @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
-@keyframes countUp { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
-@keyframes ripple { to { transform: scale(4); opacity: 0; } }
-@keyframes progress { from { width: 100%; } to { width: 0%; } }
 
 .fade-in { animation: fadeIn 0.4s ease; }
-.slide-up { animation: slideUp 0.4s ease; }
-.scale-in { animation: scaleIn 0.3s ease; }
 
-/* Auth Screens */
 .auth-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; background: var(--gradient); position: relative; overflow: hidden; }
 .auth-wrap::before { content: ''; position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); animation: spin 40s linear infinite; }
 .auth-card { background: var(--card); border-radius: 24px; padding: 36px 28px; width: 100%; max-width: 420px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1); position: relative; z-index: 1; }
 .auth-logo { text-align: center; margin-bottom: 28px; }
-.auth-logo .icon { font-size: 52px; margin-bottom: 10px; display: block; animation: scaleIn 0.6s ease; }
+.auth-logo .icon { font-size: 52px; margin-bottom: 10px; display: block; }
 .auth-logo h1 { font-size: 26px; font-weight: 700; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .auth-logo p { font-size: 13px; color: var(--muted); margin-top: 6px; }
 .auth-card h2 { font-size: 20px; font-weight: 600; margin-bottom: 22px; text-align: center; color: var(--text); }
-
-/* Forms */
 .form-group { margin-bottom: 16px; }
 .form-group label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 8px; color: var(--text-soft); }
 .input-wrap { position: relative; }
@@ -89,12 +81,9 @@ input, select, textarea {
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 select { padding-left: 16px; cursor: pointer; }
-textarea { padding-left: 16px; min-height: 80px; resize: vertical; }
 input::placeholder, textarea::placeholder { color: var(--muted); opacity: 0.7; }
 input:focus, select:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(79,70,229,0.12); }
-input:focus + .input-icon, .input-wrap:focus-within .input-icon { opacity: 1; color: var(--primary); }
 
-/* Buttons */
 .btn {
   width: 100%; padding: 14px;
   border: none; border-radius: 12px;
@@ -114,7 +103,6 @@ input:focus + .input-icon, .input-wrap:focus-within .input-icon { opacity: 1; co
 .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
 .btn-sm { padding: 8px 14px; font-size: 13px; width: auto; }
 
-/* Alerts */
 .alert { padding: 12px 16px; border-radius: 12px; font-size: 14px; margin-bottom: 16px; display: none; font-weight: 500; }
 .alert.show { display: block; animation: slideDown 0.3s ease; }
 .alert.error { background: #FEE2E2; color: #991B1B; border-left: 4px solid #EF4444; }
@@ -125,23 +113,19 @@ body.dark .alert.success { background: rgba(16,185,129,0.15); color: #6EE7B7; }
 body.dark .alert.info { background: rgba(59,130,246,0.15); color: #93C5FD; }
 .auth-card.shake { animation: shake 0.4s ease; }
 
-/* Spinners */
 .spinner { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; }
 .spinner-dark { width: 28px; height: 28px; border: 3px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 12px; }
 
-/* Auth links */
 .auth-link { text-align: center; margin-top: 18px; font-size: 14px; color: var(--muted); }
 .auth-link a { color: var(--primary); font-weight: 600; cursor: pointer; text-decoration: none; transition: all 0.2s; }
 .auth-link a:hover { text-decoration: underline; }
 
-/* App Header */
 .app-header {
   position: sticky; top: 0; z-index: 100;
   background: var(--gradient); color: white;
   padding: 14px 16px;
   display: flex; align-items: center; justify-content: space-between;
   box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-  backdrop-filter: blur(10px);
 }
 .app-header .left { display: flex; align-items: center; gap: 12px; }
 .app-header .logo-icon { font-size: 26px; }
@@ -152,18 +136,15 @@ body.dark .alert.info { background: rgba(59,130,246,0.15); color: #93C5FD; }
   background: rgba(255,255,255,0.15); border: none; color: white;
   font-size: 17px; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  transition: all 0.2s; position: relative;
+  transition: all 0.2s;
 }
-.icon-btn:hover { background: rgba(255,255,255,0.28); transform: scale(1.05); }
-.icon-btn:active { transform: scale(0.95); }
+.icon-btn:hover { background: rgba(255,255,255,0.28); }
 
-/* Container & Page */
 .container { max-width: 600px; margin: 0 auto; padding: 16px; }
 .page { display: none; }
 .page.active { display: block; animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
 .page-title { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: var(--text); letter-spacing: -0.3px; }
 
-/* Cards */
 .card {
   background: var(--card);
   border-radius: 16px;
@@ -182,7 +163,6 @@ body.dark .alert.info { background: rgba(59,130,246,0.15); color: #93C5FD; }
 }
 .card-title .title-text { display: flex; align-items: center; gap: 8px; }
 
-/* Stats Grid */
 .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
 .stat-card {
   background: var(--card);
@@ -202,14 +182,13 @@ body.dark .alert.info { background: rgba(59,130,246,0.15); color: #93C5FD; }
 .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
 .stat-card:hover::before { opacity: 1; }
 .stat-card .label { font-size: 12px; color: var(--muted); margin-bottom: 8px; font-weight: 500; }
-.stat-card .value { font-size: 24px; font-weight: 700; line-height: 1.15; letter-spacing: -0.5px; transition: all 0.3s; }
+.stat-card .value { font-size: 24px; font-weight: 700; line-height: 1.15; letter-spacing: -0.5px; }
 .stat-card.green .value { color: var(--secondary); }
 .stat-card.blue .value { color: var(--primary); }
 .stat-card.orange .value { color: var(--warning); }
 .stat-card.red .value { color: var(--danger); }
 .stat-card.info .value { color: var(--info); }
 
-/* Quick Actions */
 .quick-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .qa-btn {
   background: var(--card);
@@ -229,13 +208,10 @@ body.dark .alert.info { background: rgba(59,130,246,0.15); color: #93C5FD; }
   border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
-  transition: transform 0.3s;
 }
-.qa-btn:hover .qa-icon { transform: scale(1.1) rotate(-5deg); }
 .qa-btn .qa-text { font-size: 13px; font-weight: 600; color: var(--text); }
 .qa-btn .qa-sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
 
-/* List Items */
 .list-item {
   display: flex; justify-content: space-between; align-items: center;
   padding: 14px; border-radius: 12px;
@@ -258,13 +234,10 @@ body.dark .list-item.warn-item { background: rgba(245,158,11,0.15); border-color
 body.dark .list-item.due-item { background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.3); }
 body.dark .list-item.sale-item { background: rgba(16,185,129,0.15); }
 .list-item.clickable { cursor: pointer; }
-.list-item.clickable:active { transform: scale(0.99); background: var(--card-hover); }
 
-/* Empty State */
 .empty-state { text-align: center; padding: 32px 20px; color: var(--muted); font-size: 14px; }
 .empty-state .icon { font-size: 48px; display: block; margin-bottom: 12px; opacity: 0.4; }
 
-/* Bottom Nav */
 .bottom-nav {
   position: fixed; bottom: 0; left: 0; right: 0;
   background: var(--card);
@@ -273,27 +246,20 @@ body.dark .list-item.sale-item { background: rgba(16,185,129,0.15); }
   box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
   z-index: 100;
   border-top: 1px solid var(--border);
-  backdrop-filter: blur(12px);
-  transition: background 0.3s;
 }
 .bottom-nav a {
   flex: 1; text-decoration: none; color: var(--muted);
   text-align: center; padding: 6px 4px;
   cursor: pointer; transition: all 0.25s;
   display: flex; flex-direction: column; align-items: center; gap: 3px;
-  border-radius: 10px;
 }
-.bottom-nav a:hover { color: var(--primary); }
 .bottom-nav a.active { color: var(--primary); }
 .bottom-nav a.active .nav-icon { transform: scale(1.15); }
-.bottom-nav a .nav-icon { font-size: 21px; line-height: 1; transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.bottom-nav a .nav-icon { font-size: 21px; line-height: 1; transition: transform 0.3s; }
 .bottom-nav a .nav-label { font-size: 10px; font-weight: 500; }
 
-/* Loading */
 .loading-wrap { text-align: center; padding: 28px; color: var(--muted); font-size: 14px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
-.skeleton { background: linear-gradient(90deg, var(--bg-alt) 25%, var(--border) 50%, var(--bg-alt) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 10px; height: 60px; margin-bottom: 10px; }
 
-/* Toast */
 .toast {
   position: fixed; bottom: 90px; left: 50%;
   transform: translateX(-50%) translateY(120px);
@@ -304,29 +270,16 @@ body.dark .list-item.sale-item { background: rgba(16,185,129,0.15); }
   transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   max-width: 90%; text-align: center;
   box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-  overflow: hidden;
 }
 .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 .toast.success { background: var(--secondary); color: white; }
 .toast.error { background: var(--danger); color: white; }
-.toast::after {
-  content: ''; position: absolute;
-  bottom: 0; left: 0; height: 3px; background: rgba(255,255,255,0.4);
-  animation: progress 2.5s linear forwards;
-}
 
-/* Profile */
 .profile-header {
   text-align: center; padding: 28px 20px;
   background: var(--gradient); color: white;
   border-radius: 20px; margin-bottom: 16px;
   position: relative; overflow: hidden;
-}
-.profile-header::before {
-  content: ''; position: absolute;
-  top: -30%; right: -20%;
-  width: 60%; height: 160%;
-  background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
 }
 .profile-avatar {
   width: 84px; height: 84px; border-radius: 50%;
@@ -336,59 +289,40 @@ body.dark .list-item.sale-item { background: rgba(16,185,129,0.15); }
   margin: 0 auto 12px;
   border: 4px solid rgba(255,255,255,0.4);
   position: relative; z-index: 1;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
 }
 .profile-header h2 { font-size: 22px; font-weight: 700; position: relative; z-index: 1; }
 .profile-header p { font-size: 13px; opacity: 0.9; margin-top: 4px; position: relative; z-index: 1; }
 
-/* Setting Item */
 .setting-item {
   display: flex; justify-content: space-between; align-items: center;
   padding: 16px 0; border-bottom: 1px solid var(--border);
   cursor: pointer; transition: all 0.2s;
 }
 .setting-item:last-child { border-bottom: none; }
-.setting-item:hover { padding-left: 6px; }
 .setting-item .si-left { display: flex; align-items: center; gap: 14px; }
 .setting-item .si-icon {
   font-size: 20px; width: 40px; height: 40px;
   background: var(--bg-alt); border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
-  transition: transform 0.3s;
 }
-.setting-item:hover .si-icon { transform: scale(1.1); }
 .setting-item .si-text { font-size: 14px; font-weight: 600; color: var(--text); }
 .setting-item .si-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
 
-/* Language Switch */
-.lang-switch { display: flex; background: var(--bg-alt); border-radius: 10px; padding: 4px; }
-.lang-switch button {
+.lang-switch, .theme-toggle { display: flex; background: var(--bg-alt); border-radius: 10px; padding: 4px; }
+.lang-switch button, .theme-toggle button {
   padding: 7px 16px; border: none; background: transparent;
   border-radius: 7px; font-size: 13px; font-weight: 600;
   cursor: pointer; color: var(--muted); font-family: inherit;
   transition: all 0.25s;
 }
-.lang-switch button.active { background: var(--card); color: var(--primary); box-shadow: var(--shadow); }
+.lang-switch button.active, .theme-toggle button.active { background: var(--card); color: var(--primary); box-shadow: var(--shadow); }
 
-/* Theme Toggle */
-.theme-toggle { display: flex; background: var(--bg-alt); border-radius: 10px; padding: 4px; }
-.theme-toggle button {
-  padding: 7px 14px; border: none; background: transparent;
-  border-radius: 7px; font-size: 14px; font-weight: 600;
-  cursor: pointer; color: var(--muted); font-family: inherit;
-  transition: all 0.25s;
-}
-.theme-toggle button.active { background: var(--card); color: var(--primary); box-shadow: var(--shadow); }
-
-/* Modal */
-.modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 500; display: none; align-items: flex-end; animation: fadeIn 0.25s ease; }
+.modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 500; display: none; align-items: flex-end; }
 .modal-overlay.show { display: flex; }
-.modal { background: var(--card); color: var(--text); width: 100%; max-width: 600px; margin: 0 auto; border-radius: 24px 24px 0 0; padding: 24px 18px max(24px, env(safe-area-inset-bottom)); max-height: 90vh; overflow-y: auto; animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+.modal { background: var(--card); color: var(--text); width: 100%; max-width: 600px; margin: 0 auto; border-radius: 24px 24px 0 0; padding: 24px 18px; max-height: 90vh; overflow-y: auto; animation: slideUp 0.35s; }
 
-/* Row 2 */
 .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
-/* Report */
 .report-tabs { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 4px; }
 .report-tabs::-webkit-scrollbar { display: none; }
 .report-tabs button {
@@ -398,50 +332,31 @@ body.dark .list-item.sale-item { background: rgba(16,185,129,0.15); }
   font-family: inherit; white-space: nowrap; color: var(--muted);
   transition: all 0.25s;
 }
-.report-tabs button:hover { border-color: var(--primary); color: var(--primary); }
-.report-tabs button.active { background: var(--gradient); color: white; border-color: transparent; box-shadow: 0 4px 12px rgba(79,70,229,0.3); }
+.report-tabs button.active { background: var(--gradient); color: white; border-color: transparent; }
 .report-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
-.report-summary .item { background: var(--bg-alt); border-radius: 12px; padding: 14px; transition: all 0.2s; }
-.report-summary .item:hover { transform: translateY(-2px); }
+.report-summary .item { background: var(--bg-alt); border-radius: 12px; padding: 14px; }
 .report-summary .item .lbl { font-size: 11px; color: var(--muted); font-weight: 500; }
-.report-summary .item .val { font-size: 18px; font-weight: 700; margin-top: 6px; letter-spacing: -0.3px; }
-.top-product { display: flex; justify-content: space-between; padding: 12px; background: var(--bg-alt); border-radius: 10px; margin-bottom: 8px; font-size: 13px; transition: all 0.2s; }
-.top-product:hover { background: var(--card-hover); }
+.report-summary .item .val { font-size: 18px; font-weight: 700; margin-top: 6px; }
+.top-product { display: flex; justify-content: space-between; padding: 12px; background: var(--bg-alt); border-radius: 10px; margin-bottom: 8px; font-size: 13px; }
 .payment-badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; }
 .badge-cash { background: #D1FAE5; color: #065F46; }
 .badge-bkash { background: #FCE7F3; color: #9D174D; }
 .badge-nagad { background: #FEF3C7; color: #92400E; }
 .badge-due { background: #FEE2E2; color: #991B1B; }
 .badge-partial { background: #DBEAFE; color: #1E40AF; }
-body.dark .badge-cash { background: rgba(16,185,129,0.2); color: #6EE7B7; }
-body.dark .badge-bkash { background: rgba(236,72,153,0.2); color: #F9A8D4; }
-body.dark .badge-nagad { background: rgba(245,158,11,0.2); color: #FCD34D; }
-body.dark .badge-due { background: rgba(239,68,68,0.2); color: #FCA5A5; }
-body.dark .badge-partial { background: rgba(59,130,246,0.2); color: #93C5FD; }
 
-/* Utility */
-.mb-8 { margin-bottom: 8px; }
-.mb-12 { margin-bottom: 12px; }
-.mb-16 { margin-bottom: 16px; }
 .hidden { display: none !important; }
-
-/* Print */
 @media print {
-  .app-header, .bottom-nav, .report-tabs, .btn, .card-title .title-text button { display: none !important; }
+  .app-header, .bottom-nav, .report-tabs, .btn { display: none !important; }
   body { background: white; padding: 0; color: black; }
   .container { max-width: 100%; padding: 0; }
-  .page { display: none; }
-  .page.active { display: block; }
-  .card { box-shadow: none; border: 1px solid #ddd; page-break-inside: avoid; }
 }
-.print-only { display: none; }
 </style>
 </head>
 <body>
 
-<!-- ==================== AUTH SCREENS ==================== -->
+<!-- AUTH -->
 <div id="authScreen">
-
   <!-- LOGIN -->
   <div id="loginPage" class="auth-wrap">
     <div class="auth-card" id="loginCard">
@@ -454,17 +369,11 @@ body.dark .badge-partial { background: rgba(59,130,246,0.2); color: #93C5FD; }
       <div class="alert error" id="loginError"></div>
       <div class="form-group">
         <label data-i18n="phone">ফোন নম্বর</label>
-        <div class="input-wrap">
-          <span class="input-icon">📱</span>
-          <input type="tel" id="loginPhone" maxlength="11" autocomplete="off">
-        </div>
+        <div class="input-wrap"><span class="input-icon">📱</span><input type="tel" id="loginPhone" maxlength="11" autocomplete="off"></div>
       </div>
       <div class="form-group">
         <label data-i18n="password">পাসওয়ার্ড</label>
-        <div class="input-wrap">
-          <span class="input-icon">🔒</span>
-          <input type="password" id="loginPassword" autocomplete="new-password">
-        </div>
+        <div class="input-wrap"><span class="input-icon">🔒</span><input type="password" id="loginPassword" autocomplete="new-password"></div>
       </div>
       <button class="btn btn-primary" id="loginBtn" data-i18n="loginBtn">লগইন</button>
       <div class="auth-link">
@@ -537,7 +446,6 @@ body.dark .badge-partial { background: rgba(59,130,246,0.2); color: #93C5FD; }
         <h1 data-i18n="recoveryTitle">রিকভারি</h1>
       </div>
       <div class="alert error" id="forgotError"></div>
-      <div class="alert info" id="forgotInfo"></div>
       <div id="forgotStep1">
         <div class="form-group">
           <label data-i18n="phone">ফোন নম্বর</label>
@@ -565,12 +473,10 @@ body.dark .badge-partial { background: rgba(59,130,246,0.2); color: #93C5FD; }
       </div>
     </div>
   </div>
-
 </div>
 
-<!-- ==================== MAIN APP ==================== -->
+<!-- MAIN APP -->
 <div id="mainApp" class="hidden">
-
   <header class="app-header">
     <div class="left">
       <span class="logo-icon">🏪</span>
@@ -589,7 +495,7 @@ body.dark .badge-partial { background: rgba(59,130,246,0.2); color: #93C5FD; }
     <!-- DASHBOARD -->
     <div id="page-dashboard" class="page active">
       <h2 class="page-title" data-i18n="dashboard">ড্যাশবোর্ড</h2>
-            <div class="stats-grid">
+      <div class="stats-grid">
         <div class="stat-card green">
           <div class="label">💰 <span data-i18n="todaySales">আজকের বিক্রয়</span></div>
           <div class="value" id="statTodaySales">৳0</div>
@@ -599,11 +505,11 @@ body.dark .badge-partial { background: rgba(59,130,246,0.2); color: #93C5FD; }
           <div class="value" id="statTodayProfit">৳0</div>
         </div>
         <div class="stat-card info">
-          <div class="label">💵 <span>আজকের নগদ</span></div>
+          <div class="label">💵 <span data-i18n="todayPaid">আজকের নগদ</span></div>
           <div class="value" id="statTodayPaid">৳0</div>
         </div>
         <div class="stat-card red">
-          <div class="label">📝 <span>আজকের বাকি</span></div>
+          <div class="label">📝 <span data-i18n="todayDue">আজকের বাকি</span></div>
           <div class="value" id="statTodayDue">৳0</div>
         </div>
         <div class="stat-card orange">
@@ -636,9 +542,24 @@ body.dark .badge-partial { background: rgba(59,130,246,0.2); color: #93C5FD; }
           </button>
         </div>
       </div>
-      <div class="card">
-        <div class="card-title"><div class="title-text">⚠️ <span data-i18n="lowStockItems">কম স্টক</span></div></div>
+      <div class="card" style="cursor:pointer;" onclick="gotoPage('lowstock')">
+        <div class="card-title">
+          <div class="title-text">⚠️ <span data-i18n="lowStockItems">কম স্টক</span></div>
+          <span style="color:var(--muted);font-size:12px;" data-i18n="seeAll">সব দেখুন →</span>
+        </div>
         <div id="lowStockList"><div class="empty-state"><span class="icon">✅</span><span data-i18n="allGood">সব ঠিক আছে</span></div></div>
+      </div>
+    </div>
+
+    <!-- LOW STOCK PAGE -->
+    <div id="page-lowstock" class="page">
+      <h2 class="page-title">⚠️ <span data-i18n="lowStockItems">কম স্টক</span></h2>
+      <div class="card">
+        <div class="card-title">
+          <div class="title-text">📦 <span data-i18n="lowStockTitle">স্টক কম পণ্যের তালিকা</span></div>
+          <button class="btn btn-secondary btn-sm" onclick="gotoPage('dashboard')">← <span data-i18n="back">ফিরে যান</span></button>
+        </div>
+        <div id="lowStockFullList"></div>
       </div>
     </div>
 
@@ -662,17 +583,17 @@ body.dark .badge-partial { background: rgba(59,130,246,0.2); color: #93C5FD; }
               <option value="Cash">💵 Cash</option>
               <option value="Bkash">📱 Bkash</option>
               <option value="Nagad">📱 Nagad</option>
-              <option value="Due">📝 Due (বাকি)</option>
+              <option value="Due">📝 Due</option>
             </select>
           </div>
         </div>
-        <div id="salePreview" class="hidden" style="background:var(--gradient-soft);border:1.5px solid rgba(79,70,229,0.25);border-radius:14px;padding:16px;margin-bottom:14px;animation:slideUp 0.3s ease;">
-  <div style="display:flex;justify-content:space-between;font-size:15px;margin-bottom:10px;padding-bottom:10px;border-bottom:1px dashed rgba(79,70,229,0.3);">
-    <span style="color:var(--muted);font-weight:500;">মোট বিল:</span>
-    <b id="previewTotal" style="color:var(--primary);font-size:18px;">৳0</b>
-  </div>
-  <div id="dueFields" class="hidden">
-   <div class="form-group" style="margin-bottom:12px;">
+        <div id="salePreview" class="hidden" style="background:var(--gradient-soft);border:1.5px solid rgba(79,70,229,0.25);border-radius:14px;padding:16px;margin-bottom:14px;">
+          <div style="display:flex;justify-content:space-between;font-size:15px;margin-bottom:10px;padding-bottom:10px;border-bottom:1px dashed rgba(79,70,229,0.3);">
+            <span style="color:var(--muted);font-weight:500;" data-i18n="totalBill">মোট বিল:</span>
+            <b id="previewTotal" style="color:var(--primary);font-size:18px;">৳0</b>
+          </div>
+          <div id="dueFields" class="hidden">
+            <div class="form-group" style="margin-bottom:12px;">
               <label data-i18n="customerName">কাস্টমারের নাম</label>
               <div class="input-wrap"><span class="input-icon">👤</span><input type="text" id="saleCustomerName" autocomplete="off"></div>
             </div>
@@ -684,16 +605,16 @@ body.dark .badge-partial { background: rgba(59,130,246,0.2); color: #93C5FD; }
               <label data-i18n="customerAddress">📍 ঠিকানা (ঐচ্ছিক)</label>
               <div class="input-wrap"><span class="input-icon">📍</span><input type="text" id="saleCustomerAddress" autocomplete="off"></div>
             </div>
-    <div class="form-group" style="margin-bottom:12px;">
-      <label style="color:var(--info);font-weight:600;">💵 এখন কত টাকা দিচ্ছে?</label>
-      <div class="input-wrap"><span class="input-icon">৳</span><input type="number" id="salePaidAmount" placeholder="0" oninput="updateSalePreview()"></div>
-    </div>
-    <div style="display:flex;justify-content:space-between;font-size:15px;padding-top:10px;border-top:1px dashed rgba(239,68,68,0.3);">
-      <span style="color:var(--muted);font-weight:500;">বাকি থাকবে:</span>
-      <b id="previewDue" style="color:var(--danger);font-size:18px;">৳0</b>
-    </div>
-  </div>
-</div>
+            <div class="form-group" style="margin-bottom:12px;">
+              <label style="color:var(--info);font-weight:600;" data-i18n="howMuchNow">💵 এখন কত টাকা দিচ্ছে?</label>
+              <div class="input-wrap"><span class="input-icon">৳</span><input type="number" id="salePaidAmount" placeholder="0" oninput="updateSalePreview()"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:15px;padding-top:10px;border-top:1px dashed rgba(239,68,68,0.3);">
+              <span style="color:var(--muted);font-weight:500;" data-i18n="remainingDue">বাকি থাকবে:</span>
+              <b id="previewDue" style="color:var(--danger);font-size:18px;">৳0</b>
+            </div>
+          </div>
+        </div>
         <button class="btn btn-primary" id="saveSaleBtn" data-i18n="saveSale">💾 বিক্রয় সেভ</button>
       </div>
       <div class="card">
@@ -745,24 +666,24 @@ body.dark .badge-partial { background: rgba(59,130,246,0.2); color: #93C5FD; }
         </div>
         <div style="margin-bottom:12px;">
           <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
-            <span>📞 ফোন:</span><b id="detailPhone">-</b>
+            <span data-i18n="phone">📞 ফোন:</span><b id="detailPhone">-</b>
           </div>
           <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
-            <span>💸 মোট বাকি:</span><b id="detailDue" style="color:var(--danger);">৳0</b>
+            <span data-i18n="totalDue">💸 মোট বাকি:</span><b id="detailDue" style="color:var(--danger);">৳0</b>
           </div>
           <div style="display:flex;justify-content:space-between;padding:8px 0;">
-            <span>✅ মোট পরিশোধ:</span><b id="detailPaid" style="color:var(--secondary);">৳0</b>
+            <span data-i18n="totalPaid">✅ মোট পরিশোধ:</span><b id="detailPaid" style="color:var(--secondary);">৳0</b>
           </div>
         </div>
         <div class="form-group">
-          <label>💵 কত টাকা নিচ্ছেন?</label>
+          <label data-i18n="takePayment">💵 কত টাকা নিচ্ছেন?</label>
           <div class="input-wrap"><span class="input-icon">৳</span><input type="number" id="duePaymentAmount" placeholder="0"></div>
         </div>
         <div class="form-group">
-          <label>📝 নোট (ঐচ্ছিক)</label>
+          <label data-i18n="note">📝 নোট (ঐচ্ছিক)</label>
           <div class="input-wrap"><span class="input-icon">📝</span><input type="text" id="duePaymentNote" autocomplete="off"></div>
         </div>
-        <button class="btn btn-primary" onclick="saveDuePayment()">💾 Payment সেভ</button>
+        <button class="btn btn-primary" onclick="saveDuePayment()" data-i18n="savePayment">💾 Payment সেভ</button>
       </div>
       <div class="card">
         <div class="card-title"><div class="title-text">📜 <span data-i18n="paymentHistory">Payment History</span></div></div>
@@ -775,12 +696,12 @@ body.dark .badge-partial { background: rgba(59,130,246,0.2); color: #93C5FD; }
       <h2 class="page-title" data-i18n="reports">রিপোর্ট</h2>
       <div class="card">
         <div class="report-tabs">
-          <button class="active" data-range="today" onclick="switchReport('today')">আজ</button>
-          <button data-range="week" onclick="switchReport('week')">৭ দিন</button>
-          <button data-range="month" onclick="switchReport('month')">৩০ দিন</button>
-          <button data-range="year" onclick="switchReport('year')">১ বছর</button>
+          <button class="active" data-range="today" onclick="switchReport('today')" data-i18n="todayTab">আজ</button>
+          <button data-range="week" onclick="switchReport('week')" data-i18n="weekTab">৭ দিন</button>
+          <button data-range="month" onclick="switchReport('month')" data-i18n="monthTab">৩০ দিন</button>
+          <button data-range="year" onclick="switchReport('year')" data-i18n="yearTab">১ বছর</button>
         </div>
-        <div id="reportContent"><div class="loading-wrap"><div class="spinner-dark"></div>লোড হচ্ছে...</div></div>
+        <div id="reportContent"><div class="loading-wrap"><div class="spinner-dark"></div><span data-i18n="loading">লোড হচ্ছে...</span></div></div>
       </div>
     </div>
 
@@ -805,10 +726,10 @@ body.dark .badge-partial { background: rgba(59,130,246,0.2); color: #93C5FD; }
             <button id="langEn" onclick="setLang('en')">English</button>
           </div>
         </div>
-                <div class="setting-item">
+        <div class="setting-item">
           <div class="si-left">
             <span class="si-icon">🎨</span>
-            <div><div class="si-text">থিম</div><div class="si-sub">Appearance</div></div>
+            <div><div class="si-text" data-i18n="theme">থিম</div><div class="si-sub">Appearance</div></div>
           </div>
           <div class="theme-toggle">
             <button id="themeLight" onclick="setTheme('light')">☀️</button>
@@ -844,15 +765,11 @@ body.dark .badge-partial { background: rgba(59,130,246,0.2); color: #93C5FD; }
       <span class="nav-icon">📊</span><span class="nav-label" data-i18n="navReports">রিপোর্ট</span>
     </a>
   </nav>
-
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-// ============================================
-// 🔴 API URL
-// ============================================
 const API_URL = "https://script.google.com/macros/s/AKfycbyGPzFkamwJckDcHrYoA4AqY6PFvoQvI9_tAURjdCA3SV_cq2WoMJdmrbfiZasHs_MFjw/exec";
 
 let currentUser = null;
@@ -861,9 +778,6 @@ let currentCustomer = null;
 let currentReportRange = "today";
 let cache = { products: [] };
 
-// ============================================
-// I18N
-// ============================================
 const I18N = {
   bn: {
     tagline:"দোকানের হিসাব, সহজে",loginTitle:"লগইন",signupTitle:"সাইনআপ",recoveryTitle:"পাসওয়ার্ড রিকভারি",createAccount:"নতুন Account",
@@ -877,9 +791,16 @@ const I18N = {
     saveSale:"💾 বিক্রয় সেভ",todaySalesList:"আজকের বিক্রয়",products:"পণ্য",newProductTitle:"নতুন পণ্য",productName:"পণ্যের নাম",
     category:"ক্যাটাগরি",purchasePrice:"ক্রয়মূল্য",sellingPrice:"বিক্রয়মূল্য",stock:"স্টক",lowStockAlert:"Low Alert",saveProduct:"💾 পণ্য সেভ",
     allProducts:"সব পণ্য",dueCustomers:"বাকি কাস্টমার",paymentHistory:"Payment History",profile:"প্রোফাইল",settings:"সেটিংস",language:"ভাষা",
-    languageSub:"Language",logout:"লগআউট",logoutSub:"Logout",navHome:"হোম",navSales:"বিক্রয়",navProducts:"পণ্য",navCustomers:"কাস্টমার",navReports:"রিপোর্ট",customerPhone:"📱 ফোন (ঐচ্ছিক)",customerAddress:"📍 ঠিকানা (ঐচ্ছিক)",todayPaid:"আজকের নগদ",todayDue:"আজকের বাকি",stock:"স্টক",pcs:"পিস",buy:"ক্রয়",sell:"বিক্রয়",profit:"লাভ",due:"বাকি",phone:"ফোন",address:"ঠিকানা",noPhone:"ফোন নেই",noProducts:"কোনো পণ্য নেই",noSales:"আজ কোনো বিক্রয় নেই",noCustomers:"কোনো কাস্টমার নেই",allPaid:"সব পরিশোধ",customerDetail:"কাস্টমার বিবরণ",totalDue:"মোট বাকি",totalPaid:"মোট পরিশোধ",takePayment:"টাকা নিন",amount:"টাকার পরিমাণ",note:"নোট",savePayment:"Payment সেভ",paymentSuccess:"পেমেন্ট সফল",customerPhone:"📱 ফোন (ঐচ্ছিক)",customerAddress:"📍 ঠিকানা (ঐচ্ছিক)",
-    fillAll:"সব তথ্য পূরণ করুন",passwordShort:"পাসওয়ার্ড কমপক্ষে ৬ অক্ষর",passwordMismatch:"পাসওয়ার্ড মিলছে না",phoneInvalid:"ফোন ১১ digit",
-    saving:"সেভ হচ্ছে...",saved:"✅ সেভ হয়েছে",selectProductWarn:"পণ্য বাছাই করুন",customerNameWarn:"কাস্টমারের নাম দিন",loading:"লোড হচ্ছে..."
+    languageSub:"Language",logout:"লগআউট",logoutSub:"Logout",navHome:"হোম",navSales:"বিক্রয়",navProducts:"পণ্য",navCustomers:"কাস্টমার",navReports:"রিপোর্ট",
+    todayPaid:"আজকের নগদ",todayDue:"আজকের বাকি",pcs:"পিস",buy:"ক্রয়",sell:"বিক্রয়",profit:"লাভ",due:"বাকি",noPhone:"ফোন নেই",
+    noProducts:"কোনো পণ্য নেই",noSales:"আজ কোনো বিক্রয় নেই",noCustomers:"কোনো কাস্টমার নেই",allPaid:"সব পরিশোধ করেছে",
+    totalDue:"মোট বাকি",totalPaid:"মোট পরিশোধ",takePayment:"কত টাকা নিচ্ছেন?",note:"নোট (ঐচ্ছিক)",savePayment:"💾 Payment সেভ",
+    customerPhone:"📱 ফোন নম্বর (ঐচ্ছিক)",customerAddress:"📍 ঠিকানা (ঐচ্ছিক)",seeAll:"সব দেখুন →",back:"ফিরে যান",
+    lowStockTitle:"স্টক কম পণ্যের তালিকা",totalBill:"মোট বিল:",howMuchNow:"💵 এখন কত টাকা দিচ্ছে?",remainingDue:"বাকি থাকবে:",
+    todayTab:"আজ",weekTab:"৭ দিন",monthTab:"৩০ দিন",yearTab:"১ বছর",theme:"থিম",
+    fillAll:"সব তথ্য পূরণ করুন",passwordShort:"পাসওয়ার্ড কমপক্ষে ৬ অক্ষর",passwordMismatch:"পাসওয়ার্ড মিলছে না",
+    phoneInvalid:"ফোন ১১ digit",saving:"সেভ হচ্ছে...",saved:"✅ সেভ হয়েছে",selectProductWarn:"পণ্য বাছাই করুন",
+    customerNameWarn:"কাস্টমারের নাম দিন",loading:"লোড হচ্ছে..."
   },
   en: {
     tagline:"Shop accounting, simple",loginTitle:"Login",signupTitle:"Sign Up",recoveryTitle:"Password Recovery",createAccount:"New Account",
@@ -893,9 +814,16 @@ const I18N = {
     saveSale:"💾 Save Sale",todaySalesList:"Today's Sales",products:"Products",newProductTitle:"New Product",productName:"Product Name",
     category:"Category",purchasePrice:"Purchase Price",sellingPrice:"Selling Price",stock:"Stock",lowStockAlert:"Low Alert",saveProduct:"💾 Save Product",
     allProducts:"All Products",dueCustomers:"Due Customers",paymentHistory:"Payment History",profile:"Profile",settings:"Settings",language:"Language",
-    languageSub:"Language",logout:"Logout",logoutSub:"Logout",navHome:"Home",navSales:"Sales",navProducts:"Products",navCustomers:"Customers",navReports:"Reports",customerPhone:"📱 Phone (optional)",customerAddress:"📍 Address (optional)",todayPaid:"Today's Cash",todayDue:"Today's Due",stock:"Stock",pcs:"pcs",buy:"Buy",sell:"Sell",profit:"Profit",due:"Due",phone:"Phone",address:"Address",noPhone:"No phone",noProducts:"No products",noSales:"No sales today",noCustomers:"No customers",allPaid:"All paid",customerDetail:"Customer Details",totalDue:"Total Due",totalPaid:"Total Paid",takePayment:"Take Payment",amount:"Amount",note:"Note",savePayment:"Save Payment",paymentSuccess:"Payment Successful",customerPhone:"📱 Phone (optional)",customerAddress:"📍 Address (optional)",
-    fillAll:"Please fill all fields",passwordShort:"Password must be 6+ chars",passwordMismatch:"Passwords don't match",phoneInvalid:"Phone must be 11 digits",
-    saving:"Saving...",saved:"✅ Saved",selectProductWarn:"Select a product",customerNameWarn:"Enter customer name",loading:"Loading..."
+    languageSub:"Language",logout:"Logout",logoutSub:"Logout",navHome:"Home",navSales:"Sales",navProducts:"Products",navCustomers:"Customers",navReports:"Reports",
+    todayPaid:"Today's Cash",todayDue:"Today's Due",pcs:"pcs",buy:"Buy",sell:"Sell",profit:"Profit",due:"Due",noPhone:"No phone",
+    noProducts:"No products",noSales:"No sales today",noCustomers:"No customers",allPaid:"All paid",
+    totalDue:"Total Due",totalPaid:"Total Paid",takePayment:"How much to take?",note:"Note (optional)",savePayment:"💾 Save Payment",
+    customerPhone:"📱 Phone (optional)",customerAddress:"📍 Address (optional)",seeAll:"See all →",back:"Back",
+    lowStockTitle:"Low Stock Products",totalBill:"Total Bill:",howMuchNow:"💵 How much now?",remainingDue:"Remaining Due:",
+    todayTab:"Today",weekTab:"7 Days",monthTab:"30 Days",yearTab:"1 Year",theme:"Theme",
+    fillAll:"Please fill all fields",passwordShort:"Password must be 6+ chars",passwordMismatch:"Passwords don't match",
+    phoneInvalid:"Phone must be 11 digits",saving:"Saving...",saved:"✅ Saved",selectProductWarn:"Select a product",
+    customerNameWarn:"Enter customer name",loading:"Loading..."
   }
 };
 function t(key) { return I18N[currentLang][key] || key; }
@@ -910,19 +838,14 @@ function applyLanguage() {
   if (en) en.classList.toggle("active", currentLang === "en");
 }
 function setLang(lang) { currentLang = lang; localStorage.setItem("shopmate_lang", lang); applyLanguage(); }
-  // ============================================
-// THEME (Dark / Light)
-// ============================================
+
+// THEME
 function setTheme(theme) {
-  if (theme === "dark") {
-    document.body.classList.add("dark");
-  } else {
-    document.body.classList.remove("dark");
-  }
+  if (theme === "dark") document.body.classList.add("dark");
+  else document.body.classList.remove("dark");
   localStorage.setItem("shopmate_theme", theme);
   updateThemeUI();
 }
-
 function updateThemeUI() {
   const isDark = document.body.classList.contains("dark");
   const lightBtn = document.getElementById("themeLight");
@@ -930,51 +853,36 @@ function updateThemeUI() {
   if (lightBtn) lightBtn.classList.toggle("active", !isDark);
   if (darkBtn) darkBtn.classList.toggle("active", isDark);
 }
-
 function loadTheme() {
   const saved = localStorage.getItem("shopmate_theme") || "light";
-  if (saved === "dark") {
-    document.body.classList.add("dark");
-  }
+  if (saved === "dark") document.body.classList.add("dark");
   updateThemeUI();
 }
 
-// ============================================
 // API
-// ============================================
 const apiCache = {};
-const CACHE_DURATION = 8000; // 8 সেকেন্ড
-
+const CACHE_DURATION = 8000;
 async function apiGet(action, extra = {}) {
   const key = action + JSON.stringify(extra) + (currentUser ? currentUser.shopId : "");
-
-  // ⭐ Cache check
   if (action !== "getSales" && action !== "getPayments" && apiCache[key]) {
     const age = Date.now() - apiCache[key].time;
-    if (age < CACHE_DURATION) {
-      return apiCache[key].data;
-    }
+    if (age < CACHE_DURATION) return apiCache[key].data;
   }
-
   let url = API_URL + "?action=" + action;
   if (currentUser) url += "&shopId=" + encodeURIComponent(currentUser.shopId);
   for (const k in extra) url += "&" + k + "=" + encodeURIComponent(extra[k]);
-
   const res = await fetch(url);
   const data = await res.json();
-
-  // ⭐ Cache save
   apiCache[key] = { data: data, time: Date.now() };
   return data;
 }
-
-function clearCache() {
-  for (const k in apiCache) delete apiCache[k];
+async function apiPost(body) {
+  if (currentUser && !body.shopId) body.shopId = currentUser.shopId;
+  const res = await fetch(API_URL, { method: "POST", body: JSON.stringify(body) });
+  return res.json();
 }
 
-// ============================================
-// UI Helpers
-// ============================================
+// UI
 function showToast(msg, type = "success") {
   const toast = document.getElementById("toast");
   toast.textContent = msg;
@@ -989,37 +897,28 @@ function showAlert(id, message, type = "error") {
 function fmt(num) { return "৳" + (Number(num) || 0).toLocaleString("en-IN"); }
 function fmtDate(d) {
   const dt = new Date(d);
-  const day = String(dt.getDate()).padStart(2, "0");
-  const mon = String(dt.getMonth()+1).padStart(2, "0");
-  const yr = dt.getFullYear();
-  return day + "/" + mon + "/" + yr;
+  return String(dt.getDate()).padStart(2,"0") + "/" + String(dt.getMonth()+1).padStart(2,"0") + "/" + dt.getFullYear();
 }
-  function animateNumber(el, target, prefix = "৳") {
+function animateNumber(el, target, prefix = "৳") {
   if (!el) return;
   const duration = 500;
-  const start = 0;
   const startTime = performance.now();
   function step(now) {
     const progress = Math.min((now - startTime) / duration, 1);
     const eased = 1 - Math.pow(1 - progress, 3);
-    const current = Math.floor(start + (target - start) * eased);
+    const current = Math.floor(target * eased);
     el.textContent = prefix + current.toLocaleString("en-IN");
     if (progress < 1) requestAnimationFrame(step);
     else el.textContent = prefix + target.toLocaleString("en-IN");
   }
   requestAnimationFrame(step);
 }
-
-function animateStat(id, value) {
+function animateStat(id, value, prefix) {
   const el = document.getElementById(id);
   if (!el) return;
-  const num = Number(value) || 0;
-  animateNumber(el, num);
+  animateNumber(el, Number(value) || 0, prefix !== undefined ? prefix : "৳");
 }
 
-// ============================================
-// AUTH NAV
-// ============================================
 function gotoAuth(name) {
   document.querySelectorAll(".auth-wrap").forEach(el => el.classList.add("hidden"));
   const page = document.getElementById(name);
@@ -1031,9 +930,6 @@ function gotoAuth(name) {
   document.querySelectorAll(".alert").forEach(el => el.classList.remove("show"));
 }
 
-// ============================================
-// PAGE NAV
-// ============================================
 function gotoPage(name) {
   document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
   document.querySelectorAll(".bottom-nav a").forEach(a => a.classList.remove("active"));
@@ -1042,17 +938,15 @@ function gotoPage(name) {
   const nav = document.querySelector('.bottom-nav a[data-page="' + name + '"]');
   if (nav) nav.classList.add("active");
   window.scrollTo({ top: 0, behavior: "smooth" });
-
   if (name === "dashboard") loadDashboard();
   if (name === "sales") { loadProductsForSale(); loadTodaySales(); }
   if (name === "products") loadProductList();
   if (name === "customers") { loadCustomerList(); loadPaymentList(); closeCustomerDetail(); }
   if (name === "reports") loadReport();
+  if (name === "lowstock") loadLowStockFull();
 }
 
-// ============================================
 // SIGNUP
-// ============================================
 document.getElementById("signupBtn").addEventListener("click", async function() {
   const name = document.getElementById("signupName").value.trim();
   const shopName = document.getElementById("signupShopName").value.trim();
@@ -1061,12 +955,10 @@ document.getElementById("signupBtn").addEventListener("click", async function() 
   const confirm = document.getElementById("signupConfirm").value;
   const securityQ = document.getElementById("signupSecurityQ").value;
   const securityA = document.getElementById("signupSecurityA").value.trim();
-
   if (!name || !shopName || !phone || !password || !securityA) return showAlert("signupError", t("fillAll"));
   if (phone.length !== 11) return showAlert("signupError", t("phoneInvalid"));
   if (password.length < 6) return showAlert("signupError", t("passwordShort"));
   if (password !== confirm) return showAlert("signupError", t("passwordMismatch"));
-
   this.disabled = true;
   this.innerHTML = '<span class="spinner"></span> ' + t("saving");
   try {
@@ -1083,14 +975,11 @@ document.getElementById("signupBtn").addEventListener("click", async function() 
   finally { this.disabled = false; this.textContent = t("signupBtn"); }
 });
 
-// ============================================
 // LOGIN
-// ============================================
 document.getElementById("loginBtn").addEventListener("click", async function() {
   const phone = document.getElementById("loginPhone").value.trim();
   const password = document.getElementById("loginPassword").value;
   if (!phone || !password) return showAlert("loginError", t("fillAll"));
-
   this.disabled = true;
   this.innerHTML = '<span class="spinner"></span> ' + t("loading");
   try {
@@ -1111,19 +1000,14 @@ function loginUser(user) {
   showMainApp();
 }
 function logout() {
-  showConfirm(
-    currentLang === "bn" ? "লগআউট করবেন?" : "Logout?",
-    currentLang === "bn" ? "আপনার data নিরাপদ থাকবে" : "Your data will be safe",
-    () => {
-      currentUser = null;
-      localStorage.removeItem("shopmate_user");
-      document.getElementById("mainApp").classList.add("hidden");
-      document.getElementById("authScreen").classList.remove("hidden");
-      gotoAuth("loginPage");
-    }
-  );
+  showConfirm("লগআউট করবেন?", "আপনার data নিরাপদ থাকবে", () => {
+    currentUser = null;
+    localStorage.removeItem("shopmate_user");
+    document.getElementById("mainApp").classList.add("hidden");
+    document.getElementById("authScreen").classList.remove("hidden");
+    gotoAuth("loginPage");
+  });
 }
-
 function showConfirm(title, message, onConfirm) {
   const overlay = document.createElement("div");
   overlay.className = "modal-overlay show";
@@ -1157,9 +1041,7 @@ function showMainApp() {
   gotoPage("dashboard");
 }
 
-// ============================================
 // FORGOT
-// ============================================
 document.getElementById("forgotNextBtn").addEventListener("click", async function() {
   const phone = document.getElementById("forgotPhone").value.trim();
   if (phone.length !== 11) return showAlert("forgotError", t("phoneInvalid"));
@@ -1189,49 +1071,70 @@ document.getElementById("forgotResetBtn").addEventListener("click", async functi
   finally { this.disabled = false; }
 });
 
-// ============================================
 // DASHBOARD
-// ============================================
 async function loadDashboard() {
   try {
     const r = await apiGet("getDashboard");
     if (!r.success) return;
-
-    // ⭐ Animated numbers
     animateStat("statTodaySales", r.data.todaySales || 0);
     animateStat("statTodayProfit", r.data.todayProfit || 0);
-    animateStat("statTodayPaid", (r.data.todaySales || 0) - (r.data.todayDue || 0));
+    animateStat("statTodayPaid", r.data.todayPaid || 0);
     animateStat("statTodayDue", r.data.todayDue || 0);
-    animateStat("statTotalProducts", r.data.totalProducts || 0);
-    animateStat("statLowStock", r.data.lowStockCount || 0);
-
+    animateStat("statTotalProducts", r.data.totalProducts || 0, "");
+    animateStat("statLowStock", r.data.lowStockCount || 0, "");
     const list = document.getElementById("lowStockList");
     if (!r.data.lowStockItems || r.data.lowStockItems.length === 0) {
       list.innerHTML = '<div class="empty-state"><span class="icon">✅</span>' + t("allGood") + '</div>';
     } else {
-      list.innerHTML = r.data.lowStockItems.map(p =>
-        '<div class="list-item warn-item"><div class="left-side"><div class="item-title">' + p.ProductName + '</div><div class="item-sub">স্টক: ' + p.Stock + ' পিস</div></div><div class="item-value warn">' + p.Stock + '</div></div>'
+      list.innerHTML = r.data.lowStockItems.slice(0, 3).map(p =>
+        '<div class="list-item warn-item"><div class="left-side"><div class="item-title">' + p.ProductName + '</div><div class="item-sub">' + t("stock") + ': ' + p.Stock + ' ' + t("pcs") + '</div></div><div class="item-value warn">' + p.Stock + '</div></div>'
       ).join("");
     }
   } catch (e) { console.error(e); }
 }
-  
 
-// ============================================
+// LOW STOCK FULL PAGE
+async function loadLowStockFull() {
+  const list = document.getElementById("lowStockFullList");
+  list.innerHTML = '<div class="loading-wrap"><div class="spinner-dark"></div>' + t("loading") + '</div>';
+  try {
+    const r = await apiGet("getProducts");
+    if (!r.success || !r.data) {
+      list.innerHTML = '<div class="empty-state"><span class="icon">📦</span>' + t("noProducts") + '</div>';
+      return;
+    }
+    const lowStock = r.data.filter(p => Number(p.Stock) <= Number(p.LowStockAlert));
+    if (lowStock.length === 0) {
+      list.innerHTML = '<div class="empty-state"><span class="icon">✅</span>' + t("allGood") + '</div>';
+      return;
+    }
+    list.innerHTML = lowStock.map(p =>
+      '<div class="list-item warn-item">' +
+        '<div class="left-side">' +
+          '<div class="item-title">' + p.ProductName + '</div>' +
+          '<div class="item-sub">' + (p.Category || '') + ' | ' + t("stock") + ': ' + p.Stock + ' | Low: ' + p.LowStockAlert + '</div>' +
+        '</div>' +
+        '<div class="item-value warn">' + p.Stock + ' ' + t("pcs") + '</div>' +
+      '</div>'
+    ).join("");
+  } catch (e) {
+    list.innerHTML = '<div class="empty-state"><span class="icon">❌</span>' + e.message + '</div>';
+  }
+}
+
 // PRODUCTS
-// ============================================
 async function loadProductList() {
   const list = document.getElementById("productList");
   list.innerHTML = '<div class="loading-wrap"><div class="spinner-dark"></div>' + t("loading") + '</div>';
   try {
     const r = await apiGet("getProducts");
     if (!r.success || !r.data || r.data.length === 0) {
-      list.innerHTML = '<div class="empty-state"><span class="icon">📦</span>কোনো পণ্য নেই</div>';
+      list.innerHTML = '<div class="empty-state"><span class="icon">📦</span>' + t("noProducts") + '</div>';
       return;
     }
     cache.products = r.data;
     list.innerHTML = r.data.map(p =>
-      '<div class="list-item"><div class="left-side"><div class="item-title">' + p.ProductName + '</div><div class="item-sub">ক্রয়: ৳' + p.PurchasePrice + ' | বিক্রয়: ৳' + p.SellingPrice + '</div></div><div class="item-value' + (Number(p.Stock) <= Number(p.LowStockAlert) ? ' warn' : '') + '">' + p.Stock + '</div></div>'
+      '<div class="list-item"><div class="left-side"><div class="item-title">' + p.ProductName + '</div><div class="item-sub">' + t("buy") + ': ৳' + p.PurchasePrice + ' | ' + t("sell") + ': ৳' + p.SellingPrice + '</div></div><div class="item-value' + (Number(p.Stock) <= Number(p.LowStockAlert) ? ' warn' : '') + '">' + p.Stock + '</div></div>'
     ).join("");
   } catch (e) { list.innerHTML = '<div class="empty-state"><span class="icon">❌</span>' + e.message + '</div>'; }
 }
@@ -1245,9 +1148,9 @@ async function loadProductsForSale() {
       cache.products = r.data;
       sel.innerHTML = '<option value="">-- ' + t("selectProduct") + ' --</option>';
       r.data.forEach(p => {
-        sel.innerHTML += '<option value="' + p.ProductID + '">' + p.ProductName + ' (স্টক: ' + p.Stock + ') - ৳' + p.SellingPrice + '</option>';
+        sel.innerHTML += '<option value="' + p.ProductID + '">' + p.ProductName + ' (' + t("stock") + ': ' + p.Stock + ') - ৳' + p.SellingPrice + '</option>';
       });
-    } else sel.innerHTML = '<option value="">-- কোনো পণ্য নেই --</option>';
+    } else sel.innerHTML = '<option value="">-- ' + t("noProducts") + ' --</option>';
   } catch (e) { sel.innerHTML = '<option value="">-- Error --</option>'; }
 }
 
@@ -1267,7 +1170,7 @@ document.getElementById("saveProductBtn").addEventListener("click", async functi
   try {
     const r = await apiPost(body);
     if (r.success) {
-      showToast("✅ পণ্য সেভ হয়েছে (ID: " + r.productId + ")");
+      showToast("✅ " + t("saved") + " (ID: " + r.productId + ")");
       loadProductList();
       loadDashboard();
     } else showToast(r.message || "Error", "error");
@@ -1275,9 +1178,7 @@ document.getElementById("saveProductBtn").addEventListener("click", async functi
   finally { this.disabled = false; this.textContent = t("saveProduct"); }
 });
 
-// ============================================
-// SALES — Partial Payment
-// ============================================
+// SALES
 function onProductSelect() { updateSalePreview(); }
 function onPaymentChange() {
   const method = document.getElementById("salePayment").value;
@@ -1292,21 +1193,17 @@ function onPaymentChange() {
   }
   updateSalePreview();
 }
-
 function updateSalePreview() {
   const productId = document.getElementById("saleProductId").value;
   const qty = Number(document.getElementById("saleQty").value) || 0;
   const method = document.getElementById("salePayment").value;
   const preview = document.getElementById("salePreview");
-
   if (!productId || qty <= 0) { preview.classList.add("hidden"); return; }
   preview.classList.remove("hidden");
-
   const product = cache.products.find(p => p.ProductID === productId);
   if (!product) return;
   const total = qty * Number(product.SellingPrice);
   document.getElementById("previewTotal").textContent = fmt(total);
-
   if (method === "Due") {
     const paid = Number(document.getElementById("salePaidAmount").value) || 0;
     document.getElementById("previewDue").textContent = fmt(Math.max(0, total - paid));
@@ -1321,23 +1218,20 @@ document.getElementById("saveSaleBtn").addEventListener("click", async function(
   const customerPhone = document.getElementById("saleCustomerPhone").value.trim();
   const customerAddress = document.getElementById("saleCustomerAddress").value.trim();
   const paidAmount = document.getElementById("salePaidAmount").value || 0;
-
   if (!productId) return showToast(t("selectProductWarn"), "error");
   if (paymentMethod === "Due" && !customerName) return showToast(t("customerNameWarn"), "error");
-
   this.disabled = true;
   this.innerHTML = '<span class="spinner"></span> ' + t("saving");
   try {
     const r = await apiPost({
       action: "addSale", productId, quantity: qty,
       paymentMethod, customerName,
-      phone: customerPhone,
-      address: customerAddress,
+      phone: customerPhone, address: customerAddress,
       paidAmount: paymentMethod === "Due" ? paidAmount : null
     });
     if (r.success) {
-      let msg = "✅ বিক্রয়: ৳" + r.totalSale + " | লাভ: ৳" + r.profit;
-      if (r.dueAmount > 0) msg += " | বাকি: ৳" + r.dueAmount;
+      let msg = "✅ ৳" + r.totalSale + " | " + t("profit") + ": ৳" + r.profit;
+      if (r.dueAmount > 0) msg += " | " + t("due") + ": ৳" + r.dueAmount;
       showToast(msg);
       document.getElementById("saleQty").value = 1;
       document.getElementById("saleCustomerName").value = "";
@@ -1359,16 +1253,16 @@ async function loadTodaySales() {
   try {
     const r = await apiGet("getSales");
     if (!r.success || !r.data || r.data.length === 0) {
-      list.innerHTML = '<div class="empty-state"><span class="icon">🛒</span>আজ কোনো বিক্রয় নেই</div>'; return;
+      list.innerHTML = '<div class="empty-state"><span class="icon">🛒</span>' + t("noSales") + '</div>'; return;
     }
     const today = new Date().toDateString();
     const todaySales = r.data.filter(s => new Date(s.Date).toDateString() === today);
     if (todaySales.length === 0) {
-      list.innerHTML = '<div class="empty-state"><span class="icon">🛒</span>আজ কোনো বিক্রয় নেই</div>'; return;
+      list.innerHTML = '<div class="empty-state"><span class="icon">🛒</span>' + t("noSales") + '</div>'; return;
     }
     list.innerHTML = todaySales.reverse().map(s => {
       const badge = getBadge(s.PaymentMethod);
-      return '<div class="list-item sale-item"><div class="left-side"><div class="item-title">' + s.ProductName + ' × ' + s.Quantity + '</div><div class="item-sub">' + badge + ' | লাভ: ৳' + s.Profit + (Number(s.DueAmount) > 0 ? ' | বাকি: ৳' + s.DueAmount : '') + '</div></div><div class="item-value">৳' + s.TotalSale + '</div></div>';
+      return '<div class="list-item sale-item"><div class="left-side"><div class="item-title">' + s.ProductName + ' × ' + s.Quantity + '</div><div class="item-sub">' + badge + ' | ' + t("profit") + ': ৳' + s.Profit + (Number(s.DueAmount) > 0 ? ' | ' + t("due") + ': ৳' + s.DueAmount : '') + '</div></div><div class="item-value">৳' + s.TotalSale + '</div></div>';
     }).join("");
   } catch (e) { list.innerHTML = '<div class="empty-state"><span class="icon">❌</span>' + e.message + '</div>'; }
 }
@@ -1384,24 +1278,22 @@ function getBadge(method) {
   return map[method] || method;
 }
 
-// ============================================
 // CUSTOMERS
-// ============================================
 async function loadCustomerList() {
   const list = document.getElementById("customerList");
   list.innerHTML = '<div class="loading-wrap"><div class="spinner-dark"></div>' + t("loading") + '</div>';
   try {
     const r = await apiGet("getCustomers");
     if (!r.success || !r.data || r.data.length === 0) {
-      list.innerHTML = '<div class="empty-state"><span class="icon">👥</span>কোনো কাস্টমার নেই</div>'; return;
+      list.innerHTML = '<div class="empty-state"><span class="icon">👥</span>' + t("noCustomers") + '</div>'; return;
     }
     const withDue = r.data.filter(c => Number(c.TotalDue) > 0);
     if (withDue.length === 0) {
-      list.innerHTML = '<div class="empty-state"><span class="icon">✅</span>সব কাস্টমার পরিশোধ করেছে</div>'; return;
+      list.innerHTML = '<div class="empty-state"><span class="icon">✅</span>' + t("allPaid") + '</div>'; return;
     }
     window._customers = r.data;
-    list.innerHTML = withDue.map((c, idx) =>
-      '<div class="list-item due-item clickable" onclick="openCustomerDetail(\'' + c.CustomerID + '\')"><div class="left-side"><div class="item-title">' + c.Name + '</div><div class="item-sub">' + (c.Phone || 'ফোন নেই') + '</div></div><div class="item-value red">৳' + c.TotalDue + '</div></div>'
+    list.innerHTML = withDue.map((c) =>
+      '<div class="list-item due-item clickable" onclick="openCustomerDetail(\'' + c.CustomerID + '\')"><div class="left-side"><div class="item-title">' + c.Name + '</div><div class="item-sub">' + (c.Phone || t("noPhone")) + '</div></div><div class="item-value red">৳' + c.TotalDue + '</div></div>'
     ).join("");
   } catch (e) { list.innerHTML = '<div class="empty-state"><span class="icon">❌</span>' + e.message + '</div>'; }
 }
@@ -1417,78 +1309,44 @@ function openCustomerDetail(customerId) {
   document.getElementById("detailPaid").textContent = fmt(c.TotalPaid);
   document.getElementById("duePaymentAmount").value = "";
   document.getElementById("duePaymentNote").value = "";
-  document.getElementById("duePaymentAmount").setAttribute("max", c.TotalDue);
-
-  // Button reset (যদি আগের state-এ disabled থেকে যায়)
-  const payBtn = document.querySelector("#customerDetailCard .btn-primary");
-  if (payBtn) {
-    payBtn.disabled = false;
-    payBtn.textContent = "💾 Payment সেভ";
-  }
-
   document.getElementById("customerDetailCard").scrollIntoView({ behavior: "smooth", block: "start" });
 }
-
 function closeCustomerDetail() {
   document.getElementById("customerDetailCard").style.display = "none";
   currentCustomer = null;
 }
-
 async function saveDuePayment() {
   if (!currentCustomer) return showToast("কাস্টমার select করুন", "error");
-
   const btn = event.target;
-  if (btn.disabled) return; // ⭐ Double-click stop
+  if (btn.disabled) return;
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span> Processing...';
-
   const amount = Number(document.getElementById("duePaymentAmount").value);
   const note = document.getElementById("duePaymentNote").value.trim();
-
   if (!amount || amount <= 0) {
-    btn.disabled = false;
-    btn.textContent = "💾 Payment সেভ";
+    btn.disabled = false; btn.textContent = t("savePayment");
     return showToast("টাকার পরিমাণ দিন", "error");
   }
-
-  // ⭐ Due-এর বেশি দিলে সাথে সাথে block
   if (amount > Number(currentCustomer.TotalDue)) {
-    btn.disabled = false;
-    btn.textContent = "💾 Payment সেভ";
-    return showToast("Due ৳" + currentCustomer.TotalDue + " — এর বেশি নেওয়া যাবে না", "error");
+    btn.disabled = false; btn.textContent = t("savePayment");
+    return showToast(t("due") + " ৳" + currentCustomer.TotalDue + " — বেশি নেওয়া যাবে না", "error");
   }
-
   try {
     const r = await apiPost({
-      action: "addDuePayment",
-      customerName: currentCustomer.Name,
-      phone: currentCustomer.Phone || "",
-      amount: amount,
-      note: note,
-      type: "Due Payment"
+      action: "addDuePayment", customerName: currentCustomer.Name,
+      phone: currentCustomer.Phone || "", amount: amount, note: note, type: "Due Payment"
     });
-
     if (r.success) {
-      showToast("✅ ৳" + amount + " নেওয়া হয়েছে | বাকি: ৳" + r.newDue);
-
-      // ⭐ সাথে সাথে UI clear
+      showToast("✅ ৳" + amount + " | " + t("due") + ": ৳" + r.newDue);
       document.getElementById("duePaymentAmount").value = "";
       document.getElementById("duePaymentNote").value = "";
       closeCustomerDetail();
-
-      // ⭐ Data reload
       await loadCustomerList();
       await loadPaymentList();
       await loadDashboard();
-    } else {
-      showToast(r.message || "Error", "error");
-    }
-  } catch (e) {
-    showToast("Network error", "error");
-  } finally {
-    btn.disabled = false;
-    btn.textContent = "💾 Payment সেভ";
-  }
+    } else showToast(r.message || "Error", "error");
+  } catch (e) { showToast("Network error", "error"); }
+  finally { btn.disabled = false; btn.textContent = t("savePayment"); }
 }
 
 async function loadPaymentList() {
@@ -1497,7 +1355,7 @@ async function loadPaymentList() {
   try {
     const r = await apiGet("getPayments");
     if (!r.success || !r.data || r.data.length === 0) {
-      list.innerHTML = '<div class="empty-state"><span class="icon">📜</span>কোনো payment নেই</div>'; return;
+      list.innerHTML = '<div class="empty-state"><span class="icon">📜</span>No payments</div>'; return;
     }
     const recent = r.data.slice(-10).reverse();
     list.innerHTML = recent.map(p =>
@@ -1506,15 +1364,12 @@ async function loadPaymentList() {
   } catch (e) { list.innerHTML = '<div class="empty-state"><span class="icon">❌</span>' + e.message + '</div>'; }
 }
 
-// ============================================
 // REPORTS
-// ============================================
 function switchReport(range) {
   currentReportRange = range;
   document.querySelectorAll(".report-tabs button").forEach(b => b.classList.toggle("active", b.dataset.range === range));
   loadReport();
 }
-
 async function loadReport() {
   const content = document.getElementById("reportContent");
   content.innerHTML = '<div class="loading-wrap"><div class="spinner-dark"></div>' + t("loading") + '</div>';
@@ -1522,104 +1377,57 @@ async function loadReport() {
     const r = await apiGet("getReports", { range: currentReportRange });
     if (!r.success) { content.innerHTML = '<div class="empty-state"><span class="icon">❌</span>Error</div>'; return; }
     const d = r.data;
-
     let html = '';
-    // Summary
     html += '<div class="report-summary">';
-    html += '<div class="item"><div class="lbl">মোট বিক্রয়</div><div class="val" style="color:var(--secondary);">' + fmt(d.totalSale) + '</div></div>';
-    html += '<div class="item"><div class="lbl">মোট লাভ</div><div class="val" style="color:var(--primary);">' + fmt(d.totalProfit) + '</div></div>';
-    html += '<div class="item"><div class="lbl">নগদ পেয়েছি</div><div class="val" style="color:var(--info);">' + fmt(d.totalPaid) + '</div></div>';
-    html += '<div class="item"><div class="lbl">বাকি</div><div class="val" style="color:var(--danger);">' + fmt(d.totalDue) + '</div></div>';
+    html += '<div class="item"><div class="lbl">' + t("todaySales") + '</div><div class="val" style="color:var(--secondary);">' + fmt(d.totalSale) + '</div></div>';
+    html += '<div class="item"><div class="lbl">' + t("profit") + '</div><div class="val" style="color:var(--primary);">' + fmt(d.totalProfit) + '</div></div>';
+    html += '<div class="item"><div class="lbl">' + t("todayPaid") + '</div><div class="val" style="color:var(--info);">' + fmt(d.totalPaid) + '</div></div>';
+    html += '<div class="item"><div class="lbl">' + t("due") + '</div><div class="val" style="color:var(--danger);">' + fmt(d.totalDue) + '</div></div>';
     html += '</div>';
-
-    html += '<div style="background:var(--bg);border-radius:10px;padding:12px;margin-bottom:12px;font-size:13px;">';
-    html += '<div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span>মোট লেনদেন:</span><b>' + d.totalTransactions + '</b></div>';
-    html += '<div style="display:flex;justify-content:space-between;"><span>সময়কাল:</span><b>' + fmtDate(d.fromDate) + ' - ' + fmtDate(d.toDate) + '</b></div>';
+    html += '<div style="background:var(--bg-alt);border-radius:10px;padding:12px;margin-bottom:12px;font-size:13px;">';
+    html += '<div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span>' + t("totalProducts") + ':</span><b>' + d.totalTransactions + '</b></div>';
+    html += '<div style="display:flex;justify-content:space-between;"><span>' + fmtDate(d.fromDate) + ' - ' + fmtDate(d.toDate) + '</span></div>';
     html += '</div>';
-
-    // Top products
     if (d.topProducts && d.topProducts.length > 0) {
       html += '<div style="margin-top:16px;margin-bottom:8px;font-weight:600;font-size:14px;">🔥 Top Products</div>';
-      html += d.topProducts.map(p =>
-        '<div class="top-product"><span><b>' + p.name + '</b> × ' + p.qty + '</span><span>' + fmt(p.amount) + '</span></div>'
-      ).join("");
+      html += d.topProducts.map(p => '<div class="top-product"><span><b>' + p.name + '</b> × ' + p.qty + '</span><span>' + fmt(p.amount) + '</span></div>').join("");
     }
-
-    // Payment breakdown
     if (d.paymentBreakdown && d.paymentBreakdown.length > 0) {
-      html += '<div style="margin-top:16px;margin-bottom:8px;font-weight:600;font-size:14px;">💳 Payment Methods</div>';
-      html += d.paymentBreakdown.map(p =>
-        '<div class="top-product"><span>' + getBadge(p.method) + ' (' + p.count + ')</span><span>' + fmt(p.amount) + '</span></div>'
-      ).join("");
+      html += '<div style="margin-top:16px;margin-bottom:8px;font-weight:600;font-size:14px;">💳 Payment</div>';
+      html += d.paymentBreakdown.map(p => '<div class="top-product"><span>' + getBadge(p.method) + ' (' + p.count + ')</span><span>' + fmt(p.amount) + '</span></div>').join("");
     }
-
-    // Print button
-    html += '<button class="btn btn-primary" style="margin-top:16px;" onclick="printReport()">🖨️ Print / PDF Download</button>';
-
-    // Print area
+    html += '<button class="btn btn-primary" style="margin-top:16px;" onclick="printReport()">🖨️ Print / PDF</button>';
     html += '<div id="printArea" style="display:none;">' + buildPrintArea(d) + '</div>';
-
     content.innerHTML = html;
   } catch (e) { content.innerHTML = '<div class="empty-state"><span class="icon">❌</span>' + e.message + '</div>'; }
 }
-
 function buildPrintArea(d) {
   let html = '<div style="padding:20px;font-family:sans-serif;color:#000;">';
-  html += '<h2 style="text-align:center;margin-bottom:4px;">' + currentUser.shopName + '</h2>';
-  html += '<p style="text-align:center;margin-bottom:16px;font-size:12px;">Owner: ' + currentUser.name + ' | Period: ' + fmtDate(d.fromDate) + ' - ' + fmtDate(d.toDate) + '</p>';
-  html += '<hr style="margin-bottom:16px;border:none;border-top:1px solid #000;">';
-  html += '<h3>Summary</h3>';
-  html += '<table style="width:100%;font-size:13px;border-collapse:collapse;margin-bottom:20px;">';
-  html += '<tr><td style="padding:4px;">Total Sale</td><td style="text-align:right;"><b>৳' + d.totalSale + '</b></td></tr>';
-  html += '<tr><td style="padding:4px;">Total Cost</td><td style="text-align:right;">৳' + d.totalCost + '</td></tr>';
-  html += '<tr><td style="padding:4px;">Total Profit</td><td style="text-align:right;color:green;"><b>৳' + d.totalProfit + '</b></td></tr>';
-  html += '<tr><td style="padding:4px;">Paid Amount</td><td style="text-align:right;">৳' + d.totalPaid + '</td></tr>';
-  html += '<tr><td style="padding:4px;">Due Amount</td><td style="text-align:right;color:red;"><b>৳' + d.totalDue + '</b></td></tr>';
-  html += '<tr><td style="padding:4px;">Total Transactions</td><td style="text-align:right;">' + d.totalTransactions + '</td></tr>';
+  html += '<h2 style="text-align:center;">' + currentUser.shopName + '</h2>';
+  html += '<p style="text-align:center;font-size:12px;">Owner: ' + currentUser.name + ' | ' + fmtDate(d.fromDate) + ' - ' + fmtDate(d.toDate) + '</p>';
+  html += '<hr>';
+  html += '<table style="width:100%;font-size:13px;border-collapse:collapse;">';
+  html += '<tr><td>Total Sale</td><td style="text-align:right;"><b>৳' + d.totalSale + '</b></td></tr>';
+  html += '<tr><td>Total Profit</td><td style="text-align:right;color:green;"><b>৳' + d.totalProfit + '</b></td></tr>';
+  html += '<tr><td>Paid</td><td style="text-align:right;">৳' + d.totalPaid + '</td></tr>';
+  html += '<tr><td>Due</td><td style="text-align:right;color:red;"><b>৳' + d.totalDue + '</b></td></tr>';
   html += '</table>';
-
-  if (d.topProducts && d.topProducts.length > 0) {
-    html += '<h3>Top Products</h3>';
-    html += '<table style="width:100%;font-size:12px;border-collapse:collapse;margin-bottom:20px;border:1px solid #ccc;">';
-    html += '<tr style="background:#f0f0f0;"><th style="padding:6px;border:1px solid #ccc;text-align:left;">Product</th><th style="padding:6px;border:1px solid #ccc;">Qty</th><th style="padding:6px;border:1px solid #ccc;">Amount</th></tr>';
-    d.topProducts.forEach(p => {
-      html += '<tr><td style="padding:6px;border:1px solid #ccc;">' + p.name + '</td><td style="padding:6px;border:1px solid #ccc;text-align:center;">' + p.qty + '</td><td style="padding:6px;border:1px solid #ccc;text-align:right;">৳' + p.amount + '</td></tr>';
-    });
-    html += '</table>';
-  }
-
-  if (d.sales && d.sales.length > 0) {
-    html += '<h3>Sales Detail</h3>';
-    html += '<table style="width:100%;font-size:11px;border-collapse:collapse;border:1px solid #ccc;">';
-    html += '<tr style="background:#f0f0f0;"><th style="padding:4px;border:1px solid #ccc;">Date</th><th style="padding:4px;border:1px solid #ccc;">Product</th><th style="padding:4px;border:1px solid #ccc;">Qty</th><th style="padding:4px;border:1px solid #ccc;">Total</th><th style="padding:4px;border:1px solid #ccc;">Paid</th><th style="padding:4px;border:1px solid #ccc;">Due</th></tr>';
-    d.sales.slice(0, 50).forEach(s => {
-      html += '<tr><td style="padding:4px;border:1px solid #ccc;">' + fmtDate(s.Date) + '</td><td style="padding:4px;border:1px solid #ccc;">' + s.ProductName + '</td><td style="padding:4px;border:1px solid #ccc;text-align:center;">' + s.Quantity + '</td><td style="padding:4px;border:1px solid #ccc;text-align:right;">৳' + s.TotalSale + '</td><td style="padding:4px;border:1px solid #ccc;text-align:right;">৳' + (s.PaidAmount || 0) + '</td><td style="padding:4px;border:1px solid #ccc;text-align:right;">৳' + (s.DueAmount || 0) + '</td></tr>';
-    });
-    html += '</table>';
-  }
-
-  html += '<p style="margin-top:40px;text-align:right;font-size:12px;">Signature: ______________________</p>';
-  html += '<p style="margin-top:8px;text-align:center;font-size:10px;color:#666;">Generated by ShopMate AI | ' + new Date().toLocaleString() + '</p>';
+  html += '<p style="margin-top:40px;text-align:right;">Signature: ______________________</p>';
   html += '</div>';
   return html;
 }
-
 function printReport() {
   const printArea = document.getElementById("printArea");
   if (!printArea) return;
-  const printWindow = window.open("", "_blank");
-  printWindow.document.write('<html><head><title>Report - ' + currentUser.shopName + '</title>');
-  printWindow.document.write('<style>body{font-family:sans-serif;padding:20px;} @page { size: A4; margin: 15mm; } @media print { .no-print { display: none; } }</style>');
-  printWindow.document.write('</head><body>');
-  printWindow.document.write(printArea.innerHTML);
-  printWindow.document.write('</body></html>');
-  printWindow.document.close();
-  setTimeout(() => { printWindow.print(); }, 300);
+  const w = window.open("", "_blank");
+  w.document.write('<html><head><title>Report - ' + currentUser.shopName + '</title>');
+  w.document.write('<style>@page{size:A4;margin:15mm;}body{font-family:sans-serif;padding:20px;}</style>');
+  w.document.write('</head><body>' + printArea.innerHTML + '</body></html>');
+  w.document.close();
+  setTimeout(() => w.print(), 300);
 }
 
-// ============================================
 // INIT
-// ============================================
 function init() {
   currentLang = localStorage.getItem("shopmate_lang") || "bn";
   applyLanguage();
