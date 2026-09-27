@@ -678,7 +678,11 @@ body.dark .sale-actions .mini-btn.print {
     <!-- SALES -->
     <div id="page-sales" class="page">
       <h2 class="page-title" data-i18n="sales">বিক্রয়</h2>
-      <div class="card">
+            <div class="sales-tabs">
+        <button class="active" onclick="switchSalesTab('new')" id="tabNewSale">🆕 নতুন বিক্রয়</button>
+        <button onclick="switchSalesTab('history')" id="tabSalesHistory">📋 সব বিক্রয়</button>
+      </div>
+     <div class="card" id="newSaleCard">
         <div class="card-title"><div class="title-text">🛒 <span data-i18n="newSaleTitle">নতুন বিক্রয়</span></div></div>
         <div class="form-group">
           <label data-i18n="selectProduct">পণ্য নির্বাচন</label>
@@ -729,9 +733,26 @@ body.dark .sale-actions .mini-btn.print {
         </div>
         <button class="btn btn-primary" id="saveSaleBtn" data-i18n="saveSale">💾 বিক্রয় সেভ</button>
       </div>
-      <div class="card">
-        <div class="card-title"><div class="title-text">📋 <span data-i18n="todaySalesList">আজকের বিক্রয়</span></div></div>
-        <div id="todaySalesList"></div>
+     <div class="card" id="salesHistoryCard" style="display:none;">
+        <div class="card-title">
+          <div class="title-text">📋 সব বিক্রয়</div>
+          <button class="btn btn-secondary btn-sm" onclick="loadAllSales()">🔄 রিফ্রেশ</button>
+        </div>
+
+        <div class="date-filter">
+          <button class="active" data-filter="today" onclick="filterSalesByDate('today')">আজ</button>
+          <button data-filter="week" onclick="filterSalesByDate('week')">৭ দিন</button>
+          <button data-filter="month" onclick="filterSalesByDate('month')">৩০ দিন</button>
+          <button data-filter="year" onclick="filterSalesByDate('year')">১ বছর</button>
+          <button data-filter="all" onclick="filterSalesByDate('all')">সব</button>
+        </div>
+
+        <div class="search-box" style="margin-bottom:12px;">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="saleSearch" placeholder="পণ্য বা কাস্টমার খুঁজুন..." oninput="filterSalesList()" autocomplete="off">
+        </div>
+
+        <div id="salesHistoryList"></div>
       </div>
     </div>
 
@@ -1031,7 +1052,7 @@ function gotoPage(name) {
   if (nav) nav.classList.add("active");
   window.scrollTo({ top: 0, behavior: "smooth" });
   if (name === "dashboard") loadDashboard();
-  if (name === "sales") { loadProductsForSale(); loadTodaySales(); }
+  if (name === "sales") { loadProductsForSale(); switchSalesTab("new"); }
   if (name === "products") loadProductList();
   if (name === "customers") { loadCustomerList(); loadPaymentList(); closeCustomerDetail(); }
   if (name === "reports") loadReport();
@@ -1246,6 +1267,7 @@ function updateSalePreview() {
 }
 
 document.getElementById("saveSaleBtn").addEventListener("click", async function() {
+  const editSaleId = this.getAttribute("data-edit-sale-id");
   const productId = document.getElementById("saleProductId").value;
   const qty = document.getElementById("saleQty").value;
   const paymentMethod = document.getElementById("salePayment").value;
@@ -1253,32 +1275,67 @@ document.getElementById("saveSaleBtn").addEventListener("click", async function(
   const customerPhone = document.getElementById("saleCustomerPhone").value.trim();
   const customerAddress = document.getElementById("saleCustomerAddress").value.trim();
   const paidAmount = document.getElementById("salePaidAmount").value || 0;
+
   if (!productId) return showToast(t("selectProductWarn"), "error");
   if (paymentMethod === "Due" && !customerName) return showToast(t("customerNameWarn"), "error");
-  this.disabled = true; this.innerHTML = '<span class="spinner"></span> ' + t("saving");
+
+  this.disabled = true;
+  this.innerHTML = '<span class="spinner"></span> ' + t("saving");
+
   try {
-    const r = await apiPost({
-      action: "addSale", productId, quantity: qty,
-      paymentMethod, customerName,
-      phone: customerPhone, address: customerAddress,
-      paidAmount: paymentMethod === "Due" ? paidAmount : null
-    });
+    let r;
+    if (editSaleId) {
+      // UPDATE mode
+      r = await apiPost({
+        action: "updateSale",
+        saleId: editSaleId,
+        quantity: qty,
+        paymentMethod: paymentMethod,
+        customerName: customerName,
+        paidAmount: paymentMethod === "Due" || paymentMethod === "Partial" ? paidAmount : null
+      });
+    } else {
+      // ADD mode
+      r = await apiPost({
+        action: "addSale", productId, quantity: qty,
+        paymentMethod, customerName,
+        phone: customerPhone, address: customerAddress,
+        paidAmount: paymentMethod === "Due" ? paidAmount : null
+      });
+    }
+
     if (r.success) {
-      let msg = "✅ ৳" + r.totalSale + " | " + t("profit") + ": ৳" + r.profit;
+      let msg = "✅ " + (editSaleId ? "আপডেট হয়েছে" : "বিক্রয় হয়েছে");
+      if (r.totalSale) msg += " | ৳" + r.totalSale;
+      if (r.profit) msg += " | " + t("profit") + ": ৳" + r.profit;
       if (r.dueAmount > 0) msg += " | " + t("due") + ": ৳" + r.dueAmount;
       showToast(msg);
-      document.getElementById("saleQty").value = 1;
-      document.getElementById("saleCustomerName").value = "";
-      document.getElementById("saleCustomerPhone").value = "";
-      document.getElementById("saleCustomerAddress").value = "";
-      document.getElementById("salePaidAmount").value = 0;
-      document.getElementById("salePreview").classList.add("hidden");
-      loadProductsForSale(); loadTodaySales(); loadDashboard();
+
+      // Reset form
+      if (editSaleId) cancelSaleEdit();
+      else {
+        document.getElementById("saleQty").value = 1;
+        document.getElementById("saleCustomerName").value = "";
+        document.getElementById("saleCustomerPhone").value = "";
+        document.getElementById("saleCustomerAddress").value = "";
+        document.getElementById("salePaidAmount").value = 0;
+        document.getElementById("salePreview").classList.add("hidden");
+      }
+
+      loadProductsForSale();
+      loadDashboard();
+      // Reload history if visible
+      if (document.getElementById("salesHistoryCard").style.display !== "none") {
+        loadAllSales();
+      }
     } else showToast(r.message || "Error", "error");
   } catch (e) { showToast("Network error", "error"); }
-  finally { this.disabled = false; this.textContent = t("saveSale"); }
+  finally {
+    this.disabled = false;
+    if (editSaleId) this.textContent = "✏️ Sale আপডেট করো";
+    else this.textContent = t("saveSale");
+  }
 });
-
 async function loadTodaySales() {
   const list = document.getElementById("todaySalesList");
   list.innerHTML = '<div class="loading-wrap"><div class="spinner-dark"></div>' + t("loading") + '</div>';
@@ -1294,7 +1351,261 @@ async function loadTodaySales() {
     }).join("");
   } catch (e) { list.innerHTML = '<div class="empty-state"><span class="icon">❌</span>' + e.message + '</div>'; }
 }
+// ============================================
+// SALES TABS + HISTORY
+// ============================================
+let currentSalesFilter = "today";
+let allSalesCache = [];
 
+function switchSalesTab(tab) {
+  const newCard = document.getElementById("newSaleCard");
+  const historyCard = document.getElementById("salesHistoryCard");
+  const tabNew = document.getElementById("tabNewSale");
+  const tabHist = document.getElementById("tabSalesHistory");
+
+  if (tab === "new") {
+    newCard.style.display = "block";
+    historyCard.style.display = "none";
+    tabNew.classList.add("active");
+    tabHist.classList.remove("active");
+  } else {
+    newCard.style.display = "none";
+    historyCard.style.display = "block";
+    tabNew.classList.remove("active");
+    tabHist.classList.add("active");
+    loadAllSales();
+  }
+}
+
+async function loadAllSales() {
+  const list = document.getElementById("salesHistoryList");
+  list.innerHTML = '<div class="loading-wrap"><div class="spinner-dark"></div>' + t("loading") + '</div>';
+  try {
+    const r = await apiGet("getSales");
+    if (!r.success || !r.data) {
+      allSalesCache = [];
+      list.innerHTML = '<div class="empty-state"><span class="icon">🛒</span>' + t("noSales") + '</div>';
+      return;
+    }
+    allSalesCache = r.data;
+    filterSalesList();
+  } catch (e) {
+    list.innerHTML = '<div class="empty-state"><span class="icon">❌</span>' + e.message + '</div>';
+  }
+}
+
+function filterSalesByDate(filter) {
+  currentSalesFilter = filter;
+  document.querySelectorAll(".date-filter button").forEach(b => {
+    b.classList.toggle("active", b.dataset.filter === filter);
+  });
+  filterSalesList();
+}
+
+function filterSalesList() {
+  const list = document.getElementById("salesHistoryList");
+  const q = (document.getElementById("saleSearch")?.value || "").trim().toLowerCase();
+
+  let filtered = [...allSalesCache];
+
+  // Date filter
+  if (currentSalesFilter !== "all") {
+    const now = new Date();
+    let from = new Date();
+    if (currentSalesFilter === "today") {
+      from.setHours(0, 0, 0, 0);
+    } else if (currentSalesFilter === "week") {
+      from.setDate(now.getDate() - 7);
+      from.setHours(0, 0, 0, 0);
+    } else if (currentSalesFilter === "month") {
+      from.setMonth(now.getMonth() - 1);
+      from.setHours(0, 0, 0, 0);
+    } else if (currentSalesFilter === "year") {
+      from.setFullYear(now.getFullYear() - 1);
+      from.setHours(0, 0, 0, 0);
+    }
+    filtered = filtered.filter(s => new Date(s.Date) >= from);
+  }
+
+  // Search filter
+  if (q) {
+    filtered = filtered.filter(s =>
+      (s.ProductName || "").toLowerCase().includes(q) ||
+      (s.CustomerName || "").toLowerCase().includes(q) ||
+      (s.PaymentMethod || "").toLowerCase().includes(q)
+    );
+  }
+
+  // Sort by date (newest first)
+  filtered.sort((a, b) => new Date(b.Date) - new Date(a.Date));
+
+  if (filtered.length === 0) {
+    list.innerHTML = '<div class="empty-state"><span class="icon">🛒</span>' + t("noSales") + '</div>';
+    return;
+  }
+
+  list.innerHTML = filtered.map(s => {
+    const badge = getBadge(s.PaymentMethod);
+    const hasDue = Number(s.DueAmount) > 0;
+    return '<div class="sale-history-item">' +
+      '<div class="top-row">' +
+        '<div class="sale-info">' +
+          '<div class="sale-prod">' + s.ProductName + ' × ' + s.Quantity + '</div>' +
+          '<div class="sale-meta">' + fmtDate(s.Date) + (s.CustomerName ? ' | 👤 ' + s.CustomerName : '') + '</div>' +
+        '</div>' +
+        '<div class="sale-amt">৳' + s.TotalSale + '</div>' +
+      '</div>' +
+      '<div class="bottom-row">' +
+        '<div class="badges">' +
+          badge +
+          (hasDue ? ' <span class="payment-badge badge-due">বাকি: ৳' + s.DueAmount + '</span>' : '') +
+          ' <span class="payment-badge badge-cash">লাভ: ৳' + s.Profit + '</span>' +
+        '</div>' +
+        '<div class="sale-actions">' +
+          '<button class="mini-btn print" onclick="printSaleInvoice(\'' + s.SaleID + '\')" title="Print">🖨️</button>' +
+          '<button class="mini-btn edit" onclick="editSale(\'' + s.SaleID + '\')" title="Edit">✏️</button>' +
+          '<button class="mini-btn delete" onclick="confirmDeleteSale(\'' + s.SaleID + '\', \'' + (s.ProductName || '').replace(/'/g, "\\'") + '\')" title="Delete">🗑️</button>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }).join("");
+}
+
+function editSale(saleId) {
+  const s = allSalesCache.find(x => x.SaleID === saleId);
+  if (!s) return;
+
+  // Switch to new sale tab and pre-fill form
+  switchSalesTab("new");
+
+  setTimeout(() => {
+    // Fill basic fields
+    document.getElementById("saleProductId").value = s.ProductID || "";
+    document.getElementById("saleQty").value = s.Quantity || 1;
+    document.getElementById("salePayment").value = s.PaymentMethod || "Cash";
+    document.getElementById("saleCustomerName").value = s.CustomerName || "";
+    document.getElementById("salePaidAmount").value = s.PaidAmount || 0;
+
+    // Show due fields if payment is Due
+    if (s.PaymentMethod === "Due" || s.PaymentMethod === "Partial") {
+      document.getElementById("dueFields").classList.remove("hidden");
+    } else {
+      document.getElementById("dueFields").classList.add("hidden");
+    }
+
+    // Set edit mode
+    const btn = document.getElementById("saveSaleBtn");
+    btn.textContent = "✏️ Sale আপডেট করো";
+    btn.setAttribute("data-edit-sale-id", saleId);
+
+    // Add cancel button
+    if (!document.getElementById("cancelSaleEditBtn")) {
+      const cancelBtn = document.createElement("button");
+      cancelBtn.id = "cancelSaleEditBtn";
+      cancelBtn.className = "btn cancel-btn";
+      cancelBtn.style.marginTop = "8px";
+      cancelBtn.textContent = "❌ বাতিল";
+      cancelBtn.onclick = cancelSaleEdit;
+      btn.parentNode.insertBefore(cancelBtn, btn.nextSibling);
+    }
+
+    updateSalePreview();
+    document.getElementById("saleProductId").scrollIntoView({ behavior: "smooth", block: "center" });
+    showToast("✏️ Edit mode — form আপডেট করুন", "success");
+  }, 200);
+}
+
+function cancelSaleEdit() {
+  document.getElementById("saleQty").value = 1;
+  document.getElementById("salePayment").value = "Cash";
+  document.getElementById("saleCustomerName").value = "";
+  document.getElementById("saleCustomerPhone").value = "";
+  document.getElementById("saleCustomerAddress").value = "";
+  document.getElementById("salePaidAmount").value = 0;
+  document.getElementById("salePreview").classList.add("hidden");
+  document.getElementById("dueFields").classList.add("hidden");
+
+  const btn = document.getElementById("saveSaleBtn");
+  btn.textContent = t("saveSale");
+  btn.removeAttribute("data-edit-sale-id");
+
+  const cancelBtn = document.getElementById("cancelSaleEditBtn");
+  if (cancelBtn) cancelBtn.remove();
+}
+
+function confirmDeleteSale(saleId, productName) {
+  showConfirm(
+    "বিক্রয় মুছে ফেলবেন?",
+    "'" + productName + "' — এই বিক্রয়টি স্থায়ীভাবে মুছে যাবে। Stock ও Due auto adjust হবে।",
+    async () => {
+      try {
+        const r = await apiPost({ action: "deleteSale", saleId: saleId });
+        if (r.success) {
+          showToast("✅ বিক্রয় মুছে ফেলা হয়েছে");
+          loadAllSales();
+          loadDashboard();
+        } else showToast(r.message || "Error", "error");
+      } catch (e) { showToast("Network error", "error"); }
+    }
+  );
+}
+
+function printSaleInvoice(saleId) {
+  const s = allSalesCache.find(x => x.SaleID === saleId);
+  if (!s) return;
+
+  const invoiceHTML = 
+    '<div class="invoice-modal show" id="invoiceModal">' +
+      '<div class="invoice-box">' +
+        '<div class="invoice-header">' +
+          '<h2>🏪 ' + currentUser.shopName + '</h2>' +
+          '<p>Owner: ' + currentUser.name + ' | ' + (currentUser.phone || '') + '</p>' +
+          '<p style="margin-top:6px;font-size:14px;font-weight:700;color:#4F46E5;">INVOICE</p>' +
+        '</div>' +
+        '<div class="invoice-row"><span class="lbl">Invoice #:</span><span class="val">' + s.SaleID + '</span></div>' +
+        '<div class="invoice-row"><span class="lbl">তারিখ:</span><span class="val">' + fmtDate(s.Date) + '</span></div>' +
+        '<div class="invoice-row"><span class="lbl">পণ্য:</span><span class="val">' + s.ProductName + '</span></div>' +
+        '<div class="invoice-row"><span class="lbl">পরিমাণ:</span><span class="val">' + s.Quantity + ' টি</span></div>' +
+        '<div class="invoice-row"><span class="lbl">একক দাম:</span><span class="val">৳' + s.SellingPrice + '</span></div>' +
+        '<div class="invoice-total"><span>মোট বিল:</span><span>৳' + s.TotalSale + '</span></div>' +
+        (s.CustomerName ? '<div class="invoice-row"><span class="lbl">কাস্টমার:</span><span class="val">' + s.CustomerName + '</span></div>' : '') +
+        '<div class="invoice-row"><span class="lbl">পেমেন্ট পদ্ধতি:</span><span class="val">' + s.PaymentMethod + '</span></div>' +
+        '<div class="invoice-row"><span class="lbl">পরিশোধ:</span><span class="val" style="color:#10B981;">৳' + (s.PaidAmount || 0) + '</span></div>' +
+        (Number(s.DueAmount) > 0 ? '<div class="invoice-row"><span class="lbl">বাকি:</span><span class="val" style="color:#EF4444;">৳' + s.DueAmount + '</span></div>' : '') +
+        '<div class="invoice-footer">' +
+          '<p style="margin-bottom:6px;">ধন্যবাদ! আবার আসবেন 🙏</p>' +
+          '<p>Generated by ShopMate AI | ' + new Date().toLocaleString() + '</p>' +
+        '</div>' +
+        '<div class="invoice-actions">' +
+          '<button class="btn btn-secondary" onclick="closeInvoice()">✕ বন্ধ</button>' +
+          '<button class="btn btn-primary" onclick="doPrintInvoice()">🖨️ Print</button>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+
+  // Remove old modal if exists
+  const oldModal = document.getElementById("invoiceModal");
+  if (oldModal) oldModal.remove();
+
+  document.body.insertAdjacentHTML("beforeend", invoiceHTML);
+}
+
+function closeInvoice() {
+  const modal = document.getElementById("invoiceModal");
+  if (modal) modal.remove();
+}
+
+function doPrintInvoice() {
+  const box = document.querySelector(".invoice-box");
+  if (!box) return;
+  const w = window.open("", "_blank");
+  w.document.write('<html><head><title>Invoice</title>');
+  w.document.write('<style>@page{size:A4;margin:15mm;}body{font-family:sans-serif;padding:20px;color:#000;}.invoice-box{max-width:500px;margin:0 auto;}.invoice-header{text-align:center;padding-bottom:14px;border-bottom:2px solid #4F46E5;margin-bottom:16px;}.invoice-header h2{color:#4F46E5;margin:0 0 4px 0;}.invoice-header p{font-size:12px;color:#666;margin:2px 0;}.invoice-row{display:flex;justify-content:space-between;padding:8px 0;font-size:13px;border-bottom:1px dashed #E5E7EB;}.invoice-row .lbl{color:#666;}.invoice-row .val{font-weight:600;}.invoice-total{background:#F3F4F6;padding:12px;border-radius:8px;margin:14px 0;display:flex;justify-content:space-between;font-weight:700;font-size:16px;}.invoice-footer{text-align:center;margin-top:20px;padding-top:14px;border-top:1px dashed #ccc;font-size:11px;color:#666;}</style>');
+  w.document.write('</head><body>' + box.outerHTML + '</body></html>');
+  w.document.close();
+  setTimeout(() => w.print(), 300);
+}
+  
 function getBadge(method) {
   const map = {
     "Cash": '<span class="payment-badge badge-cash">💵 Cash</span>',
